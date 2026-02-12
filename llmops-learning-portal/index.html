@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Observability & LLMOps Learning Portal</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>LLMOps Academy</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#tracks" class="nav-link">Tracks</a>
+                <a href="#curriculum" class="nav-link">Curriculum</a>
+                <a href="#tools" class="nav-link">Tools</a>
+                <a href="#community" class="nav-link">Community</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Master AI Observability & LLMOps</h1>
+                    <p class="hero-subtitle">Comprehensive learning tracks for building, deploying, and monitoring AI systems at scale</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Learning Tracks</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Modules</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Tools Covered</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="scrollToSection('tracks')">Explore Tracks</button>
+                        <button class="btn btn-outline" onclick="scrollToSection('curriculum')">View Curriculum</button>
+                    </div>
+                </div>
+                
+                <div class="ai-visualization">
+                    <div class="neural-network">
+                        <div class="node center-node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        <div class="node"></div>
+                        
+                        <div class="connections">
+                            <div class="connection" style="top: 50%; left: 50%; width: 100px; transform: rotate(0deg);"></div>
+                            <div class="connection" style="top: 50%; left: 50%; width: 100px; transform: rotate(45deg);"></div>
+                            <div class="connection" style="top: 50%; left: 50%; width: 100px; transform: rotate(90deg);"></div>
+                            <div class="connection" style="top: 50%; left: 50%; width: 100px; transform: rotate(135deg);"></div>
+                        </div>
+                        
+                        <div class="data-streams">
+                            <div class="stream stream-1"></div>
+                            <div class="stream stream-2"></div>
+                            <div class="stream stream-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracks Section -->
+    <section id="tracks" class="tracks">
+        <div class="container">
+            <div class="section-header">
+                <h2>Learning Tracks</h2>
+                <p>Choose your path based on your experience level and goals</p>
+            </div>
+            
+            <div class="tracks-grid">
+                <div class="track-card" onclick="openTrack('beginner')">
+                    <div class="track-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Beginner Track</h3>
+                    <p>AI + LLM Basics</p>
+                    <span class="track-level">Foundational</span>
+                    <div class="track-modules">
+                        <span class="module-tag">AI Fundamentals</span>
+                        <span class="module-tag">NLP Basics</span>
+                        <span class="module-tag">LLM Intro</span>
+                    </div>
+                    <div class="track-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+                    <div class="topic-content">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Understanding AI, ML, and Deep Learning fundamentals</li>
+                                <li>Introduction to Large Language Models (LLMs)</li>
+                                <li>Basic concepts of Natural Language Processing</li>
+                                <li>Model lifecycle and evaluation metrics</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Key Concepts</h4>
+                            <p>Artificial Intelligence (AI) is the simulation of human intelligence processes by machines, especially computer systems. Machine Learning (ML) is a subset of AI that enables systems to automatically learn and improve from experience without being explicitly programmed.</p>
+                        </div>
+                        <div class="external-resources">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank" rel="noopener">Andrew Ng's Machine Learning Course</a></li>
+                                <li><a href="https://developers.google.com/machine-learning/crash-course" target="_blank" rel="noopener">Google ML Crash Course</a></li>
+                                <li><a href="https://huggingface.co/course/chapter1" target="_blank" rel="noopener">Hugging Face NLP Course</a></li>
+                                <li><a href="https://openai.com/research" target="_blank" rel="noopener">OpenAI Research</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="track-card" onclick="openTrack('builder')">
+                    <div class="track-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Builder Track</h3>
+                    <p>RAG + Prompt Engineering</p>
+                    <span class="track-level">Intermediate</span>
+                    <div class="track-modules">
+                        <span class="module-tag">Prompt Engineering</span>
+                        <span class="module-tag">RAG Systems</span>
+                        <span class="module-tag">Frameworks</span>
+                    </div>
+                    <div class="track-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+                    <div class="topic-content">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Advanced prompt engineering techniques</li>
+                                <li>Building Retrieval-Augmented Generation (RAG) systems</li>
+                                <li>Working with LangChain and LlamaIndex frameworks</li>
+                                <li>Creating context-aware AI applications</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Key Concepts</h4>
+                            <p>Prompt engineering is the practice of designing and optimizing prompts to get better results from language models. Retrieval-Augmented Generation (RAG) combines the power of large language models with external knowledge sources to provide more accurate and up-to-date responses.</p>
+                        </div>
+                        <div class="external-resources">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://learnprompting.org/" target="_blank" rel="noopener">Learn Prompting</a></li>
+                                <li><a href="https://python.langchain.com/" target="_blank" rel="noopener">LangChain Documentation</a></li>
+                                <li><a href="https://docs.llamaindex.ai/en/stable/" target="_blank" rel="noopener">LlamaIndex Documentation</a></li>
+                                <li><a href="https://www.deeplearning.ai/short-courses/building-llm-powered-applications/" target="_blank" rel="noopener">Building LLM Applications</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="track-card" onclick="openTrack('llmops')">
+                    <div class="track-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>LLMOps Track</h3>
+                    <p>Deployment + Scaling</p>
+                    <span class="track-level">Advanced</span>
+                    <div class="track-modules">
+                        <span class="module-tag">Containerization</span>
+                        <span class="module-tag">Model Serving</span>
+                        <span class="module-tag">Infrastructure</span>
+                    </div>
+                    <div class="track-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+                    <div class="topic-content">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Containerizing LLM applications with Docker</li>
+                                <li>Orchestrating deployments with Kubernetes</li>
+                                <li>Optimizing model serving with Ray Serve and vLLM</li>
+                                <li>Scaling LLM applications for production workloads</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Key Concepts</h4>
+                            <p>LLMOps (LLM Operations) is the practice of deploying, monitoring, and maintaining large language model applications in production. It encompasses containerization, orchestration, model serving optimization, and infrastructure management to ensure reliable and scalable AI services.</p>
+                        </div>
+                        <div class="external-resources">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://docs.docker.com/" target="_blank" rel="noopener">Docker Documentation</a></li>
+                                <li><a href="https://kubernetes.io/docs/" target="_blank" rel="noopener">Kubernetes Documentation</a></li>
+                                <li><a href="https://docs.ray.io/en/latest/serve/index.html" target="_blank" rel="noopener">Ray Serve Documentation</a></li>
+                                <li><a href="https://docs.vllm.ai/" target="_blank" rel="noopener">vLLM Documentation</a></li>
+                                <li><a href="https://www.anthropic.com/news/llmops" target="_blank" rel="noopener">LLMOps Best Practices</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="track-card" onclick="openTrack('observability')">
+                    <div class="track-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Observability Track</h3>
+                    <p>Monitoring + Evaluation</p>
+                    <span class="track-level">Expert</span>
+                    <div class="track-modules">
+                        <span class="module-tag">AI Observability</span>
+                        <span class="module-tag">Quality Monitoring</span>
+                        <span class="module-tag">Tracking</span>
+                    </div>
+                    <div class="track-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+                    <div class="topic-content">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Monitoring LLM applications for performance and quality</li>
+                                <li>Implementing observability practices for AI systems</li>
+                                <li>Tracking model drift and data quality issues</li>
+                                <li>Setting up alerting and dashboarding for AI services</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Key Concepts</h4>
+                            <p>AI Observability is the practice of monitoring, logging, and tracing AI/ML systems to ensure they perform reliably in production. It involves tracking model performance, data quality, system health, and user interactions to detect issues early and maintain service quality.</p>
+                        </div>
+                        <div class="external-resources">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://docs.smith.langchain.com/" target="_blank" rel="noopener">LangSmith Documentation</a></li>
+                                <li><a href="https://docs.arize.com/arize/" target="_blank" rel="noopener">Arize AI Documentation</a></li>
+                                <li><a href="https://docs.whylabs.ai/" target="_blank" rel="noopener">WhyLabs Documentation</a></li>
+                                <li><a href="https://docs.wandb.ai/" target="_blank" rel="noopener">Weights & Biases Documentation</a></li>
+                                <li><a href="https://www.helicone.ai/docs" target="_blank" rel="noopener">Helicone Documentation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="track-card" onclick="openTrack('architect')">
+                    <div class="track-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Advanced Architect Track</h3>
+                    <p>Governance + Enterprise Design</p>
+                    <span class="track-level">Enterprise</span>
+                    <div class="track-modules">
+                        <span class="module-tag">AI Governance</span>
+                        <span class="module-tag">Security</span>
+                        <span class="module-tag">Architecture</span>
+                    </div>
+                    <div class="track-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" data-width="0%"></div>
+                        </div>
+                        <span class="progress-text">0% Complete</span>
+                    </div>
+                    <div class="topic-content">
+                        <div class="content-section">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Implementing AI governance frameworks</li>
+                                <li>Securing LLM applications and data</li>
+                                <li>Designing enterprise-scale AI architectures</li>
+                                <li>Compliance and regulatory considerations</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Key Concepts</h4>
+                            <p>AI Governance involves establishing policies, procedures, and controls to ensure responsible AI development and deployment. Enterprise AI Architecture focuses on designing scalable, secure, and maintainable AI systems that integrate with existing enterprise infrastructure and meet business requirements.</p>
+                        </div>
+                        <div class="external-resources">
+                            <h4>External Resources</h4>
+                            <ul>
+                                <li><a href="https://docs.rails.ai/guardrails" target="_blank" rel="noopener">Guardrails AI Documentation</a></li>
+                                <li><a href="https://microsoft.github.io/presidio/" target="_blank" rel="noopener">Microsoft Presidio Documentation</a></li>
+                                <li><a href="https://platform.openai.com/docs/guides/moderation" target="_blank" rel="noopener">OpenAI Moderation API</a></li>
+                                <li><a href="https://www.microsoft.com/en-us/ai/responsible-ai?activetab=pivot1%3aprimaryr6" target="_blank" rel="noopener">Microsoft Responsible AI</a></li>
+                                <li><a href="https://ai.google/responsibilities/" target="_blank" rel="noopener">Google AI Principles</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section id="curriculum" class="curriculum">
+        <div class="container">
+            <div class="section-header">
+                <h2>Curriculum Overview</h2>
+                <p>Structured learning path from fundamentals to advanced concepts</p>
+            </div>
+            
+            <div class="curriculum-timeline">
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-badge">1</div>
+                        <div class="phase-content">
+                            <h3>Foundational Concepts</h3>
+                            <p>Build your understanding of AI, ML, and LLM fundamentals</p>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">1</div>
+                        <div class="module-info">
+                            <h4>AI & ML Fundamentals</h4>
+                            <p>Understanding AI, ML, Deep Learning, model lifecycle, and evaluation metrics</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">Scikit-learn</span>
+                                <span class="tool-tag">TensorFlow</span>
+                                <span class="tool-tag">PyTorch</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">2 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('ai-ml-fundamentals')">Start Module</button>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">2</div>
+                        <div class="module-info">
+                            <h4>NLP & Transformer Basics</h4>
+                            <p>Text preprocessing, embeddings, attention mechanism, and transformer architecture</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">Hugging Face</span>
+                                <span class="tool-tag">spaCy</span>
+                                <span class="tool-tag">NLTK</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">3 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('nlp-transformer-basics')">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-badge">2</div>
+                        <div class="phase-content">
+                            <h3>Practical Application</h3>
+                            <p>Learn to build and deploy real-world AI applications</p>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">3</div>
+                        <div class="module-info">
+                            <h4>Advanced Prompt Engineering</h4>
+                            <p>Master zero-shot, few-shot, chain-of-thought, role prompting, and prompt templating</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">PromptLayer</span>
+                                <span class="tool-tag">LangChain</span>
+                                <span class="tool-tag">OpenAI Playground</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">3 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('advanced-prompt-engineering')">Start Module</button>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">4</div>
+                        <div class="module-info">
+                            <h4>Retrieval-Augmented Generation (RAG)</h4>
+                            <p>Build RAG systems with vector databases, embeddings, and hybrid search</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">Pinecone</span>
+                                <span class="tool-tag">Weaviate</span>
+                                <span class="tool-tag">FAISS</span>
+                                <span class="tool-tag">Chroma</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">4 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('rag-systems')">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-header">
+                        <div class="phase-badge">3</div>
+                        <div class="phase-content">
+                            <h3>Production & Scale</h3>
+                            <p>Deploy, scale, and monitor AI systems in production environments</p>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">5</div>
+                        <div class="module-info">
+                            <h4>Containerization & Orchestration</h4>
+                            <p>Master Docker and Kubernetes for LLM deployment</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">Docker</span>
+                                <span class="tool-tag">Kubernetes</span>
+                                <span class="tool-tag">Docker Compose</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">4 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('containerization-orchestration')">Start Module</button>
+                        </div>
+                    </div>
+                    
+                    <div class="module-card">
+                        <div class="module-number">6</div>
+                        <div class="module-info">
+                            <h4>Model Serving & Inference Optimization</h4>
+                            <p>Optimize model serving with Ray Serve, vLLM, and Triton</p>
+                            <div class="module-tools">
+                                <span class="tool-tag">Ray Serve</span>
+                                <span class="tool-tag">vLLM</span>
+                                <span class="tool-tag">Triton Inference Server</span>
+                            </div>
+                        </div>
+                        <div class="module-actions">
+                            <span class="module-duration">5 hours</span>
+                            <button class="btn btn-sm btn-outline" onclick="openModule('model-serving-optimization')">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tools & Technologies</h2>
+                <p>Master the essential tools used in modern AI and LLMOps</p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-category">
+                    <h3><i class="fas fa-database"></i> Vector Databases</h3>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-database"></i></div>
+                            <div class="tool-info">
+                                <h4>Pinecone</h4>
+                                <p>Managed vector database for production applications</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-database"></i></div>
+                            <div class="tool-info">
+                                <h4>Weaviate</h4>
+                                <p>Open-source vector database with GraphQL interface</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-database"></i></div>
+                            <div class="tool-info">
+                                <h4>FAISS</h4>
+                                <p>Facebook AI Similarity Search library</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-database"></i></div>
+                            <div class="tool-info">
+                                <h4>Chroma</h4>
+                                <p>Embeddings database for building LLM apps</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3><i class="fas fa-code"></i> Frameworks</h3>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-code"></i></div>
+                            <div class="tool-info">
+                                <h4>LangChain</h4>
+                                <p>Framework for building applications with LLMs</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-code"></i></div>
+                            <div class="tool-info">
+                                <h4>LlamaIndex</h4>
+                                <p>Framework for building LLM applications over data</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-code"></i></div>
+                            <div class="tool-info">
+                                <h4>Ray Serve</h4>
+                                <p>Scalable model serving library</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-code"></i></div>
+                            <div class="tool-info">
+                                <h4>vLLM</h4>
+                                <p>High-throughput and memory-efficient inference engine</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3><i class="fas fa-chart-line"></i> Observability</h3>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="tool-info">
+                                <h4>LangSmith</h4>
+                                <p>Debug, test, and monitor LLM applications</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="tool-info">
+                                <h4>Arize AI</h4>
+                                <p>ML observability platform</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="tool-info">
+                                <h4>WhyLabs</h4>
+                                <p>AI observability and monitoring</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="tool-info">
+                                <h4>Weights & Biases</h4>
+                                <p>Experiment tracking and model management</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3><i class="fas fa-shield-alt"></i> Security & Governance</h3>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="tool-info">
+                                <h4>Guardrails AI</h4>
+                                <p>Framework for building reliable LLM applications</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="tool-info">
+                                <h4>Microsoft Presidio</h4>
+                                <p>Privacy-preserving framework</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="tool-info">
+                                <h4>OpenAI Moderation API</h4>
+                                <p>Content moderation for LLM outputs</p>
+                            </div>
+                        </div>
+                        <div class="tool-item">
+                            <div class="tool-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="tool-info">
+                                <h4>Helicone</h4>
+                                <p>LLM observability and monitoring</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community">
+        <div class="container">
+            <div class="section-header">
+                <h2>Join Our Community</h2>
+                <p>Connect with learners, experts, and industry professionals</p>
+            </div>
+            
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Discussion Forums</h3>
+                    <p>Join conversations about AI, ML, and LLMOps with our community of learners and experts</p>
+                    <button class="btn btn-outline">Join Discussion</button>
+                </div>
+                
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Live Workshops</h3>
+                    <p>Participate in hands-on workshops and webinars with industry experts</p>
+                    <button class="btn btn-outline">View Schedule</button>
+                </div>
+                
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3>Open Source Projects</h3>
+                    <p>Contribute to real-world AI projects and build your portfolio</p>
+                    <button class="btn btn-outline">Explore Projects</button>
+                </div>
+                
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Mentorship Program</h3>
+                    <p>Get guidance from experienced professionals in the field</p>
+                    <button class="btn btn-outline">Find a Mentor</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LLMOps Academy</h3>
+                    <p>Your comprehensive guide to mastering AI observability and LLMOps practices.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#tracks">Learning Tracks</a></li>
+                        <li><a href="#curriculum">Curriculum</a></li>
+                        <li><a href="#tools">Tools</a></li>
+                        <li><a href="#community">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Stay updated with the latest in AI and LLMOps</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 LLMOps Academy. All rights reserved.</p>
+                <p>Prepared by <a href="https://www.linkedin.com/in/pusulurisrinivasa/" target="_blank" rel="noopener">Pusuluri Srinivasa</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Track Modal -->
+    <div id="trackModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modalBody">
+                <!-- Modal content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

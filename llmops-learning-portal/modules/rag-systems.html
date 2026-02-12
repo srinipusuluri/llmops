@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieval-Augmented Generation (RAG) - LLMOps Academy</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Module-specific styles */
+        .module-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .module-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .module-meta {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .module-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .module-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .learning-objectives {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .objective-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .objective-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .objective-item h4 {
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interactive-demo {
+            background: #1a202c;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #4a5568;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #2563eb;
+        }
+        
+        .rag-architecture {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .architecture-component {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .architecture-component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .component-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+        
+        .component-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .component-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        .vector-database {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .vector-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-top: 1rem;
+        }
+        
+        .vector-cell {
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .vector-cell.active {
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        .search-simulation {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .search-result {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .result-score {
+            float: right;
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .code-example {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-section {
+            background: white;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-option {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        
+        .quiz-option.selected {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #eff6ff;
+            border-radius: 12px;
+        }
+        
+        .progress-bar-container {
+            flex-grow: 1;
+            margin: 0 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn.prev:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .module-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem 1rem;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .rag-architecture {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Module Header -->
+    <header class="module-header">
+        <div class="module-container">
+            <h1 class="module-title">Retrieval-Augmented Generation (RAG)</h1>
+            <div class="module-meta">
+                <i class="fas fa-clock"></i> 4 hours • <i class="fas fa-level-up-alt"></i> Intermediate Level
+            </div>
+            <div class="module-tools">
+                <span class="tool-tag">Pinecone</span>
+                <span class="tool-tag">Weaviate</span>
+                <span class="tool-tag">FAISS</span>
+                <span class="tool-tag">Chroma</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Module Content -->
+    <div class="module-container">
+        <div class="module-content">
+            <!-- Learning Objectives -->
+            <div class="learning-objectives">
+                <h3><i class="fas fa-graduation-cap"></i> Learning Objectives</h3>
+                <div class="objective-list">
+                    <div class="objective-item">
+                        <h4>Master Vector Database Fundamentals</h4>
+                        <p>Understand how vector databases store and retrieve embeddings for semantic search.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Learn Embedding Strategies</h4>
+                        <p>Discover different embedding models and techniques for converting text to vectors.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Master Chunking Techniques</h4>
+                        <p>Learn optimal strategies for breaking down documents into meaningful chunks.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Implement Hybrid Search Methods</h4>
+                        <p>Combine semantic and keyword search for improved retrieval accuracy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <section>
+                <h2><i class="fas fa-puzzle-piece"></i> What is RAG?</h2>
+                <p>Retrieval-Augmented Generation (RAG) is a powerful approach that combines the strengths of large language models with external knowledge sources. Instead of relying solely on the model's pre-trained knowledge, RAG systems retrieve relevant information from external databases and use it to generate more accurate and up-to-date responses.</p>
+                
+                <div class="rag-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="component-title">Vector Database</div>
+                        <div class="component-description">
+                            Stores document embeddings in a searchable format, enabling fast semantic retrieval of relevant information.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="component-title">LLM Generator</div>
+                        <div class="component-description">
+                            Takes retrieved documents and user query to generate informed, contextually relevant responses.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vector Database Fundamentals -->
+            <section>
+                <h2><i class="fas fa-database"></i> Vector Database Fundamentals</h2>
+                <p>Vector databases are specialized databases designed to store and query high-dimensional vectors efficiently. They enable semantic search by finding vectors that are "close" to a query vector in the embedding space.</p>
+
+                <div class="vector-database">
+                    <h4>How Vector Databases Work</h4>
+                    <p>When you store text in a vector database, it's first converted to a numerical representation (embedding) using a machine learning model. These embeddings capture the semantic meaning of the text, allowing for similarity-based retrieval.</p>
+                    
+                    <div class="vector-grid" id="vectorGrid">
+                        <!-- Vector cells will be generated here -->
+                    </div>
+                    <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
+                        <i class="fas fa-info-circle"></i> Each cell represents a dimension in the vector space. Similar vectors will have similar patterns of activation.
+                    </p>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-search"></i> Semantic Search Simulation</h4>
+                    <div class="search-simulation">
+                        <label for="searchQuery" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Enter your search query:</label>
+                        <input type="text" id="searchQuery" class="search-input" placeholder="e.g., 'machine learning algorithms'">
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="simulateSearch()">Search</button>
+                            <button class="demo-btn" onclick="clearSearch()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="search-results" id="searchResults">
+                        <!-- Search results will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Embedding Strategies -->
+            <section>
+                <h2><i class="fas fa-vector-square"></i> Embedding Strategies</h2>
+                <p>Embeddings are numerical representations of text that capture semantic meaning. The choice of embedding model and strategy significantly impacts RAG system performance.</p>
+
+                <div class="rag-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="component-title">OpenAI Embeddings</div>
+                        <div class="component-description">
+                            High-quality embeddings from OpenAI, excellent for general-purpose semantic search with strong performance across domains.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="component-title">Hugging Face Models</div>
+                        <div class="component-description">
+                            Open-source embedding models that can be fine-tuned for specific domains and run locally for privacy.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Embedding Generation with Python:</h4>
+                    <pre><code>import openai
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Generate embeddings
+def get_embedding(text, model="text-embedding-ada-002"):
+    response = openai.Embedding.create(
+        input=text,
+        model=model
+    )
+    return response['data'][0]['embedding']
+
+# Calculate similarity
+def calculate_similarity(vec1, vec2):
+    return cosine_similarity([vec1], [vec2])[0][0]
+
+# Example usage
+text1 = "Machine learning algorithms"
+text2 = "AI learning methods"
+text3 = "Cooking recipes"
+
+emb1 = get_embedding(text1)
+emb2 = get_embedding(text2)
+emb3 = get_embedding(text3)
+
+print(f"Similarity between '{text1}' and '{text2}': {calculate_similarity(emb1, emb2):.3f}")
+print(f"Similarity between '{text1}' and '{text3}': {calculate_similarity(emb1, emb3):.3f}")</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-chart-line"></i> Embedding Visualization</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="visualizeEmbeddings('similar')">Similar Texts</button>
+                        <button class="demo-btn" onclick="visualizeEmbeddings('different')">Different Texts</button>
+                        <button class="demo-btn" onclick="visualizeEmbeddings('random')">Random Texts</button>
+                    </div>
+                    <div class="visualization-area" id="embeddingVisualization">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-scatter" style="font-size: 3rem; color: #3b82f6;"></i>
+                            <p style="margin-top: 1rem;">Select an option to visualize text embeddings in 2D space</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chunking Techniques -->
+            <section>
+                <h2><i class="fas fa-cube"></i> Chunking Techniques</h2>
+                <p>Chunking is the process of breaking down documents into smaller, manageable pieces. The chunking strategy significantly affects retrieval quality and system performance.</p>
+
+                <div class="rag-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="component-title">Fixed-Size Chunking</div>
+                        <div class="component-description">
+                            Splits documents into equal-sized chunks. Simple but may break semantic boundaries.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="component-title">Semantic Chunking</div>
+                        <div class="component-description">
+                            Uses semantic boundaries to create meaningful chunks. Better for preserving context.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-puzzle-piece"></i> Chunking Strategy Comparison</h4>
+                    <div class="search-simulation">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Sample Document:</label>
+                        <div style="background: #1e293b; padding: 1rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                            Artificial intelligence (AI) is a rapidly evolving field that focuses on creating intelligent machines capable of performing tasks that typically require human intelligence. Machine learning, a subset of AI, enables computers to learn from data without being explicitly programmed. Deep learning, which uses neural networks with many layers, has achieved remarkable success in areas like image recognition, natural language processing, and game playing. These technologies are transforming industries from healthcare to finance, enabling new capabilities and improving efficiency.
+                        </div>
+                        
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="showChunking('fixed')">Fixed-Size Chunks</button>
+                            <button class="demo-btn" onclick="showChunking('semantic')">Semantic Chunks</button>
+                            <button class="demo-btn" onclick="showChunking('sliding')">Sliding Window</button>
+                        </div>
+                    </div>
+                    <div id="chunkingResults" style="margin-top: 1rem;">
+                        <!-- Chunking results will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hybrid Search Methods -->
+            <section>
+                <h2><i class="fas fa-mix"></i> Hybrid Search Methods</h2>
+                <p>Hybrid search combines multiple retrieval strategies to improve search quality. By combining semantic search with keyword search, BM25, or other methods, you can achieve better precision and recall.</p>
+
+                <div class="rag-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="component-title">Semantic Search</div>
+                        <div class="component-description">
+                            Finds documents based on semantic similarity using vector embeddings and cosine similarity.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="component-title">Keyword Search</div>
+                        <div class="component-description">
+                            Traditional search based on exact word matches and term frequency-inverse document frequency (TF-IDF).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Hybrid Search Implementation:</h4>
+                    <pre><code>from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
+import numpy as np
+
+class HybridSearch:
+    def __init__(self, documents):
+        self.documents = documents
+        self.bm25 = BM25Okapi([doc.split() for doc in documents])
+        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.embeddings = self.model.encode(documents)
+    
+    def search(self, query, alpha=0.5, top_k=5):
+        # Semantic search
+        query_embedding = self.model.encode([query])
+        semantic_scores = np.dot(self.embeddings, query_embedding.T).flatten()
+        
+        # Keyword search
+        keyword_scores = self.bm25.get_scores(query.split())
+        
+        # Combine scores
+        combined_scores = alpha * semantic_scores + (1 - alpha) * keyword_scores
+        
+        # Get top results
+        top_indices = np.argsort(combined_scores)[::-1][:top_k]
+        return [(self.documents[i], combined_scores[i]) for i in top_indices]
+
+# Usage
+documents = ["Machine learning algorithms", "Deep learning neural networks", "Natural language processing"]
+search_engine = HybridSearch(documents)
+results = search_engine.search("AI learning methods")</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-balance-scale"></i> Hybrid Search Tuning</h4>
+                    <div class="search-simulation">
+                        <label for="hybridQuery" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Enter your search query:</label>
+                        <input type="text" id="hybridQuery" class="search-input" placeholder="e.g., 'neural networks'">
+                        
+                        <div style="margin: 1rem 0;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Semantic Weight (α): <span id="alphaValue">0.5</span></label>
+                            <input type="range" id="alphaSlider" min="0" max="1" step="0.1" value="0.5" style="width: 100%;">
+                        </div>
+                        
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="runHybridSearch()">Search</button>
+                            <button class="demo-btn" onclick="clearHybridSearch()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="search-results" id="hybridResults">
+                        <!-- Hybrid search results will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- RAG Implementation -->
+            <section>
+                <h2><i class="fas fa-cogs"></i> Building a Complete RAG System</h2>
+                <p>Now let's put everything together to build a complete RAG system that combines all the components we've learned about.</p>
+
+                <div class="code-example">
+                    <h4>Complete RAG Pipeline:</h4>
+                    <pre><code>import openai
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+import json
+
+class RAGSystem:
+    def __init__(self, documents, embedding_model="text-embedding-ada-002"):
+        self.documents = documents
+        self.embedding_model = embedding_model
+        self.document_embeddings = self._embed_documents()
+    
+    def _embed_documents(self):
+        """Convert all documents to embeddings"""
+        embeddings = []
+        for doc in self.documents:
+            response = openai.Embedding.create(
+                input=doc,
+                model=self.embedding_model
+            )
+            embeddings.append(response['data'][0]['embedding'])
+        return np.array(embeddings)
+    
+    def retrieve_documents(self, query, top_k=3):
+        """Retrieve most relevant documents for a query"""
+        query_embedding = openai.Embedding.create(
+            input=query,
+            model=self.embedding_model
+        )['data'][0]['embedding']
+        
+        similarities = cosine_similarity([query_embedding], self.document_embeddings)[0]
+        top_indices = np.argsort(similarities)[::-1][:top_k]
+        
+        return [(self.documents[i], similarities[i]) for i in top_indices]
+    
+    def generate_response(self, query, context_docs):
+        """Generate response using retrieved documents as context"""
+        context = "\\n\\n".join([doc for doc, _ in context_docs])
+        
+        prompt = f"""Use the following context to answer the question. If you don't know the answer, say "I don't know".
+
+Context:
+{context}
+
+Question: {query}
+
+Answer:"""
+        
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        
+        return response.choices[0].message.content
+    
+    def query(self, query):
+        """Complete RAG query pipeline"""
+        retrieved_docs = self.retrieve_documents(query)
+        response = self.generate_response(query, retrieved_docs)
+        
+        return {
+            "query": query,
+            "retrieved_docs": retrieved_docs,
+            "response": response
+        }
+
+# Usage
+documents = [
+    "Machine learning is a subset of artificial intelligence that focuses on algorithms that can learn from data.",
+    "Deep learning uses neural networks with multiple layers to learn complex patterns in data.",
+    "Natural language processing enables computers to understand and generate human language.",
+    "Computer vision allows machines to interpret and understand visual information from the world."
+]
+
+rag_system = RAGSystem(documents)
+result = rag_system.query("What is machine learning?")
+print(json.dumps(result, indent=2))</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-play"></i> RAG System Demo</h4>
+                    <div class="search-simulation">
+                        <label for="ragQuery" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Ask a question:</label>
+                        <input type="text" id="ragQuery" class="search-input" placeholder="e.g., 'What is machine learning?'">
+                        
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="runRAGQuery()">Get Answer</button>
+                            <button class="demo-btn" onclick="clearRAGQuery()">Clear</button>
+                        </div>
+                    </div>
+                    <div id="ragResults" style="margin-top: 1rem;">
+                        <!-- RAG results will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section>
+                <div class="quiz-section">
+                    <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>1. What is the main advantage of RAG over traditional LLMs?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Faster response times</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Access to up-to-date information</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Lower computational cost</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Better creative writing</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. Which chunking strategy preserves semantic boundaries best?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Fixed-size chunking</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Semantic chunking</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Random chunking</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Sentence-based chunking</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. What does hybrid search combine?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Semantic and keyword search</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Multiple LLMs</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Different embedding models</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Vector and graph databases</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. Why are vector databases important for RAG?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 4)">They store the LLM parameters</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">They enable fast semantic search</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">They generate embeddings</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">They train the model</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="checkAnswers()">Check Answers</button>
+                    <div id="quiz-result" style="margin-top: 1rem; font-weight: bold;"></div>
+                </div>
+            </section>
+
+            <!-- Progress & Next Steps -->
+            <div class="progress-section">
+                <span><i class="fas fa-chart-line"></i> Module Progress</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="moduleProgress" style="width: 50%"></div>
+                    </div>
+                </div>
+                <span id="progressText">50% Complete</span>
+            </div>
+
+            <!-- Module Navigation -->
+            <div class="module-navigation">
+                <a href="advanced-prompt-engineering.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: Advanced Prompt Engineering
+                </a>
+                <a href="containerization-orchestration.html" class="nav-btn next">
+                    Next Module: Containerization & Orchestration <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Module Resources</h3>
+                    <ul>
+                        <li><a href="https://www.pinecone.io/learn/vector-database/" target="_blank">Pinecone Vector Database Guide</a></li>
+                        <li><a href="https://weaviate.io/developers/weaviate" target="_blank">Weaviate Documentation</a></li>
+                        <li><a href="https://github.com/facebookresearch/faiss" target="_blank">FAISS Documentation</a></li>
+                        <li><a href="https://docs.trychroma.com/" target="_blank">Chroma Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Practice Exercises</h3>
+                    <ul>
+                        <li><a href="#">Download Exercise Files</a></li>
+                        <li><a href="#">RAG Implementation Challenges</a></li>
+                        <li><a href="#">Vector Database Setup Guide</a></li>
+                        <li><a href="#">Discussion Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize vector grid
+        function initVectorGrid() {
+            const grid = document.getElementById('vectorGrid');
+            for (let i = 0; i < 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'vector-cell';
+                cell.style.background = `rgba(226, 232, 240, ${Math.random()})`;
+                grid.appendChild(cell);
+            }
+        }
+
+        function simulateSearch() {
+            const query = document.getElementById('searchQuery').value;
+            const results = document.getElementById('searchResults');
+            
+            if (!query.trim()) {
+                results.innerHTML = '<p style="color: #ef4444;">Please enter a search query.</p>';
+                return;
+            }
+            
+            // Simulate search results
+            const sampleResults = [
+                { text: "Machine learning algorithms and their applications", score: 0.92 },
+                { text: "Deep learning neural networks for image recognition", score: 0.87 },
+                { text: "Natural language processing techniques and tools", score: 0.81 },
+                { text: "Artificial intelligence in healthcare and medicine", score: 0.76 },
+                { text: "Data science and analytics methods", score: 0.71 }
+            ];
+            
+            results.innerHTML = sampleResults.map(result => `
+                <div class="search-result">
+                    <span class="result-score">${result.score.toFixed(2)}</span>
+                    <strong>${result.text}</strong>
+                    <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.9rem;">
+                        This document contains relevant information about your search query "${query}".
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function clearSearch() {
+            document.getElementById('searchQuery').value = '';
+            document.getElementById('searchResults').innerHTML = '';
+        }
+
+        function visualizeEmbeddings(type) {
+            const area = document.getElementById('embeddingVisualization');
+            const texts = type === 'similar' ? 
+                ["Machine learning", "AI algorithms", "Neural networks"] :
+                type === 'different' ?
+                ["Machine learning", "Cooking recipes", "Car maintenance"] :
+                ["Artificial intelligence", "Data science", "Natural language processing", "Computer vision", "Robotics"];
+            
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Text Embeddings in 2D Space</h4>
+                    <div style="display: grid; grid-template-columns: repeat(${texts.length}, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                        ${texts.map((text, i) => `
+                            <div style="text-align: center;">
+                                <div style="width: 20px; height: 20px; background: hsl(${i * 60}, 70%, 50%); border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">${text}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; font-size: 0.9rem; color: #94a3b8;">
+                        <p style="margin: 0;">Each colored dot represents a text embedding projected into 2D space.</p>
+                        <p style="margin: 0.5rem 0 0 0;">Similar texts cluster together, while different texts are farther apart.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showChunking(strategy) {
+            const results = document.getElementById('chunkingResults');
+            const text = "Artificial intelligence (AI) is a rapidly evolving field that focuses on creating intelligent machines capable of performing tasks that typically require human intelligence. Machine learning, a subset of AI, enables computers to learn from data without being explicitly programmed. Deep learning, which uses neural networks with many layers, has achieved remarkable success in areas like image recognition, natural language processing, and game playing. These technologies are transforming industries from healthcare to finance, enabling new capabilities and improving efficiency.";
+            
+            let chunks = [];
+            
+            if (strategy === 'fixed') {
+                const chunkSize = 100;
+                for (let i = 0; i < text.length; i += chunkSize) {
+                    chunks.push(text.substring(i, i + chunkSize));
+                }
+            } else if (strategy === 'semantic') {
+                chunks = [
+                    "Artificial intelligence (AI) is a rapidly evolving field that focuses on creating intelligent machines capable of performing tasks that typically require human intelligence.",
+                    "Machine learning, a subset of AI, enables computers to learn from data without being explicitly programmed.",
+                    "Deep learning, which uses neural networks with many layers, has achieved remarkable success in areas like image recognition, natural language processing, and game playing.",
+                    "These technologies are transforming industries from healthcare to finance, enabling new capabilities and improving efficiency."
+                ];
+            } else if (strategy === 'sliding') {
+                const windowSize = 80;
+                const stepSize = 40;
+                for (let i = 0; i < text.length - windowSize; i += stepSize) {
+                    chunks.push(text.substring(i, i + windowSize));
+                }
+            }
+            
+            results.innerHTML = `
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="margin-top: 0;">${strategy === 'fixed' ? 'Fixed-Size' : strategy === 'semantic' ? 'Semantic' : 'Sliding Window'} Chunks:</h4>
+                    ${chunks.map((chunk, i) => `
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+                            <strong>Chunk ${i + 1}:</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">${chunk}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function runHybridSearch() {
+            const query = document.getElementById('hybridQuery').value;
+            const alpha = parseFloat(document.getElementById('alphaSlider').value);
+            const results = document.getElementById('hybridResults');
+            
+            if (!query.trim()) {
+                results.innerHTML = '<p style="color: #ef4444;">Please enter a search query.</p>';
+                return;
+            }
+            
+            // Simulate hybrid search results
+            const sampleResults = [
+                { text: "Machine learning algorithms and their applications", score: (0.9 * alpha + 0.7 * (1 - alpha)).toFixed(2) },
+                { text: "Deep learning neural networks for image recognition", score: (0.8 * alpha + 0.8 * (1 - alpha)).toFixed(2) },
+                { text: "Natural language processing techniques and tools", score: (0.7 * alpha + 0.9 * (1 - alpha)).toFixed(2) },
+                { text: "Artificial intelligence in healthcare and medicine", score: (0.6 * alpha + 0.6 * (1 - alpha)).toFixed(2) }
+            ];
+            
+            results.innerHTML = sampleResults.map(result => `
+                <div class="search-result">
+                    <span class="result-score">${result.score}</span>
+                    <strong>${result.text}</strong>
+                    <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.9rem;">
+                        Semantic weight: ${alpha}, Keyword weight: ${1 - alpha}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function clearHybridSearch() {
+            document.getElementById('hybridQuery').value = '';
+            document.getElementById('hybridResults').innerHTML = '';
+        }
+
+        function runRAGQuery() {
+            const query = document.getElementById('ragQuery').value;
+            const results = document.getElementById('ragResults');
+            
+            if (!query.trim()) {
+                results.innerHTML = '<p style="color: #ef4444;">Please enter a question.</p>';
+                return;
+            }
+            
+            // Simulate RAG response
+            const retrievedDocs = [
+                { text: "Machine learning is a subset of artificial intelligence that focuses on algorithms that can learn from data.", score: 0.92 },
+                { text: "Deep learning uses neural networks with multiple layers to learn complex patterns in data.", score: 0.87 },
+                { text: "Natural language processing enables computers to understand and generate human language.", score: 0.81 }
+            ];
+            
+            const response = `Based on the retrieved documents, ${query} is a fundamental concept in artificial intelligence. Machine learning enables computers to learn from data without being explicitly programmed, while deep learning uses neural networks to learn complex patterns. Natural language processing allows computers to understand and generate human language, which is essential for many AI applications.`;
+            
+            results.innerHTML = `
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem;">
+                    <h4 style="margin-top: 0;">RAG Query Results:</h4>
+                    
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+                        <strong>Query:</strong>
+                        <p style="margin: 0.5rem 0 0 0;">${query}</p>
+                    </div>
+                    
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+                        <strong>Retrieved Documents:</strong>
+                        ${retrievedDocs.map((doc, i) => `
+                            <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #e2e8f0;">
+                                <span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">${doc.score.toFixed(2)}</span>
+                                <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">${doc.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem;">
+                        <strong>Generated Response:</strong>
+                        <p style="margin: 0.5rem 0 0 0;">${response}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function clearRAGQuery() {
+            document.getElementById('ragQuery').value = '';
+            document.getElementById('ragResults').innerHTML = '';
+        }
+
+        function selectOption(element, questionNum) {
+            // Remove previous selections for this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const results = [
+                { question: 1, correct: 1 }, // Second option is correct (Access to up-to-date information)
+                { question: 2, correct: 1 }, // Second option is correct (Semantic chunking)
+                { question: 3, correct: 0 }, // First option is correct (Semantic and keyword search)
+                { question: 4, correct: 1 }  // Second option is correct (They enable fast semantic search)
+            ];
+
+            let score = 0;
+            results.forEach(result => {
+                const options = document.querySelectorAll(`.quiz-question:nth-child(${result.question}) .quiz-option`);
+                const selected = Array.from(options).findIndex(opt => opt.classList.contains('selected'));
+                if (selected === result.correct) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerText = `You scored ${score}/${results.length} correct answers!`;
+            resultDiv.style.color = score === results.length ? '#3b82f6' : '#ef4444';
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const progress = document.getElementById('moduleProgress');
+            const text = document.getElementById('progressText');
+            let width = parseInt(progress.style.width) || 50;
+            
+            if (width < 100) {
+                width += 25;
+                progress.style.width = width + '%';
+                text.innerText = width + '% Complete';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initVectorGrid();
+            
+            // Add event listener for alpha slider
+            document.getElementById('alphaSlider').addEventListener('input', function() {
+                document.getElementById('alphaValue').innerText = this.value;
+            });
+            
+            // Add click event to progress bar to advance
+            document.querySelector('.progress-bar').addEventListener('click', updateProgress);
+        });
+    </script>
+</body>
+</html>

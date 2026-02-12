@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Containerization & Orchestration - LLMOps Academy</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Module-specific styles */
+        .module-header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .module-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .module-meta {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .module-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .module-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .learning-objectives {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .objective-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .objective-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .objective-item h4 {
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interactive-demo {
+            background: #1a202c;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #4a5568;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #d97706;
+        }
+        
+        .container-architecture {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .architecture-component {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .architecture-component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .component-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #f59e0b;
+        }
+        
+        .component-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .component-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        .dockerfile-editor {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .dockerfile-content {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            min-height: 200px;
+            overflow-x: auto;
+        }
+        
+        .k8s-manifest {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .k8s-yaml {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            min-height: 300px;
+            overflow-x: auto;
+        }
+        
+        .code-example {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-section {
+            background: white;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-option {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        
+        .quiz-option.selected {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+        
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #fffbeb;
+            border-radius: 12px;
+        }
+        
+        .progress-bar-container {
+            flex-grow: 1;
+            margin: 0 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn.prev:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .module-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem 1rem;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .container-architecture {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Module Header -->
+    <header class="module-header">
+        <div class="module-container">
+            <h1 class="module-title">Containerization & Orchestration</h1>
+            <div class="module-meta">
+                <i class="fas fa-clock"></i> 4 hours • <i class="fas fa-level-up-alt"></i> Advanced Level
+            </div>
+            <div class="module-tools">
+                <span class="tool-tag">Docker</span>
+                <span class="tool-tag">Kubernetes</span>
+                <span class="tool-tag">Docker Compose</span>
+                <span class="tool-tag">Helm</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Module Content -->
+    <div class="module-container">
+        <div class="module-content">
+            <!-- Learning Objectives -->
+            <div class="learning-objectives">
+                <h3><i class="fas fa-graduation-cap"></i> Learning Objectives</h3>
+                <div class="objective-list">
+                    <div class="objective-item">
+                        <h4>Master Docker Fundamentals</h4>
+                        <p>Learn to containerize LLM applications with Docker, including multi-stage builds and optimization techniques.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Understand Kubernetes Basics</h4>
+                        <p>Discover how to orchestrate containers at scale using Kubernetes for production deployments.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Learn Service Deployment</h4>
+                        <p>Master the deployment of LLM services with proper networking, storage, and resource management.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Implement Scaling Strategies</h4>
+                        <p>Understand horizontal and vertical scaling approaches for handling varying LLM workloads.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <section>
+                <h2><i class="fas fa-ship"></i> Containerization for LLMs</h2>
+                <p>Containerization is the foundation of modern cloud-native applications, especially for AI/ML workloads. Containers provide isolated, reproducible environments that ensure your LLM applications run consistently across different environments, from development to production.</p>
+                
+                <div class="container-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <div class="component-title">Docker Containers</div>
+                        <div class="component-description">
+                            Lightweight, portable containers that package your LLM application and all its dependencies into a single unit.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="component-title">Kubernetes Orchestration</div>
+                        <div class="component-description">
+                            Automated deployment, scaling, and management of containerized LLM applications across clusters of machines.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Docker Fundamentals -->
+            <section>
+                <h2><i class="fab fa-docker"></i> Docker Fundamentals</h2>
+                <p>Docker is the de facto standard for containerization. It allows you to package your LLM application with all its dependencies into a lightweight, portable container that can run anywhere Docker is installed.</p>
+
+                <div class="dockerfile-editor">
+                    <h4>Dockerfile for LLM Application:</h4>
+                    <div class="dockerfile-content" id="dockerfileContent">
+                        # Multi-stage build for LLM application
+                        FROM python:3.10-slim as base
+
+                        # Install system dependencies
+                        RUN apt-get update && apt-get install -y \\
+                            gcc \\
+                            g++ \\
+                            && rm -rf /var/lib/apt/lists/*
+
+                        # Set working directory
+                        WORKDIR /app
+
+                        # Copy requirements and install Python dependencies
+                        COPY requirements.txt .
+                        RUN pip install --no-cache-dir -r requirements.txt
+
+                        # Production stage
+                        FROM base as production
+
+                        # Copy application code
+                        COPY . .
+
+                        # Create non-root user for security
+                        RUN useradd --create-home appuser \\
+                            && chown -R appuser:appuser /app
+                        USER appuser
+
+                        # Expose port
+                        EXPOSE 8000
+
+                        # Health check
+                        HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \\
+                            CMD curl -f http://localhost:8000/health || exit 1
+
+                        # Start the application
+                        CMD ["python", "app.py"]
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-cogs"></i> Docker Build & Run Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="simulateDockerBuild()">Build Image</button>
+                        <button class="demo-btn" onclick="simulateDockerRun()">Run Container</button>
+                        <button class="demo-btn" onclick="simulateDockerPush()">Push to Registry</button>
+                    </div>
+                    <div class="visualization-area" id="dockerSimulation">
+                        <div style="text-align: center;">
+                            <i class="fab fa-docker" style="font-size: 3rem; color: #f59e0b;"></i>
+                            <p style="margin-top: 1rem;">Click buttons above to simulate Docker operations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kubernetes Basics -->
+            <section>
+                <h2><i class="fas fa-network-wired"></i> Kubernetes Basics</h2>
+                <p>Kubernetes is an open-source platform for automating deployment, scaling, and management of containerized applications. For LLM workloads, Kubernetes provides the infrastructure needed to handle varying loads and ensure high availability.</p>
+
+                <div class="k8s-manifest">
+                    <h4>Kubernetes Deployment for LLM Service:</h4>
+                    <div class="k8s-yaml" id="k8sManifest">
+                        apiVersion: apps/v1
+                        kind: Deployment
+                        metadata:
+                          name: llm-service
+                          labels:
+                            app: llm-service
+                        spec:
+                          replicas: 3
+                          selector:
+                            matchLabels:
+                              app: llm-service
+                          template:
+                            metadata:
+                              labels:
+                                app: llm-service
+                            spec:
+                              containers:
+                              - name: llm-app
+                                image: my-llm-app:latest
+                                ports:
+                                - containerPort: 8000
+                                resources:
+                                  requests:
+                                    memory: "2Gi"
+                                    cpu: "1000m"
+                                  limits:
+                                    memory: "4Gi"
+                                    cpu: "2000m"
+                                env:
+                                - name: MODEL_PATH
+                                  value: "/models/gpt-4"
+                                volumeMounts:
+                                - name: model-storage
+                                  mountPath: /models
+                              volumes:
+                              - name: model-storage
+                                persistentVolumeClaim:
+                                  claimName: model-pvc
+                        ---
+                        apiVersion: v1
+                        kind: Service
+                        metadata:
+                          name: llm-service
+                        spec:
+                          selector:
+                            app: llm-service
+                          ports:
+                          - protocol: TCP
+                            port: 80
+                            targetPort: 8000
+                          type: LoadBalancer
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-layer-group"></i> Kubernetes Cluster Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="simulateK8sDeploy()">Deploy Application</button>
+                        <button class="demo-btn" onclick="simulateK8sScale()">Scale Up</button>
+                        <button class="demo-btn" onclick="simulateK8sScaleDown()">Scale Down</button>
+                    </div>
+                    <div class="visualization-area" id="k8sSimulation">
+                        <div style="text-align: center;">
+                            <i class="fas fa-network-wired" style="font-size: 3rem; color: #f59e0b;"></i>
+                            <p style="margin-top: 1rem;">Click buttons above to simulate Kubernetes operations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LLM-Specific Containerization -->
+            <section>
+                <h2><i class="fas fa-brain"></i> LLM-Specific Considerations</h2>
+                <p>Containerizing LLM applications requires special considerations due to their resource requirements, model storage needs, and performance characteristics.</p>
+
+                <div class="container-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <div class="component-title">Memory Management</div>
+                        <div class="component-description">
+                            LLMs require significant memory. Use resource limits and requests to ensure proper allocation and prevent OOM kills.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-hdd"></i>
+                        </div>
+                        <div class="component-title">Model Storage</div>
+                        <div class="component-description">
+                            Large model files need persistent storage. Use volumes and consider model caching strategies for performance.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Optimized Dockerfile for LLM:</h4>
+                    <pre><code># Multi-stage build for LLM with GPU support
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04 as base
+
+# Install Python and system dependencies
+RUN apt-get update && apt-get install -y \\
+    python3.10 \\
+    python3-pip \\
+    && rm -rf /var/lib/apt/lists/*
+
+# Install NVIDIA runtime
+RUN apt-get update && apt-get install -y \\
+    nvidia-container-toolkit \\
+    && rm -rf /var/lib/apt/lists/*
+
+FROM base as builder
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir torch torchvision torchaudio \\
+    && pip install --no-cache-dir -r requirements.txt
+
+FROM base
+
+# Copy Python binaries from builder
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Copy application code
+COPY . /app
+WORKDIR /app
+
+# Create model directory
+RUN mkdir -p /models
+
+# Set environment variables
+ENV CUDA_VISIBLE_DEVICES=0
+ENV PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+
+# Health check for LLM service
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \\
+    CMD python -c "import torch; print('GPU available:', torch.cuda.is_available())" || exit 1
+
+CMD ["python", "llm_service.py"]</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-chart-line"></i> Resource Monitoring Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="simulateMemoryUsage()">Monitor Memory</button>
+                        <button class="demo-btn" onclick="simulateGPUUsage()">Monitor GPU</button>
+                        <button class="demo-btn" onclick="simulateNetworkTraffic()">Monitor Network</button>
+                    </div>
+                    <div class="visualization-area" id="monitoringSimulation">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-line" style="font-size: 3rem; color: #f59e0b;"></i>
+                            <p style="margin-top: 1rem;">Click buttons above to simulate resource monitoring</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Service Deployment -->
+            <section>
+                <h2><i class="fas fa-server"></i> Service Deployment</h2>
+                <p>Deploying LLM services requires careful consideration of networking, load balancing, and service discovery to ensure high availability and performance.</p>
+
+                <div class="container-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="component-title">Load Balancing</div>
+                        <div class="component-description">
+                            Distribute incoming requests across multiple LLM service instances to handle high traffic and ensure availability.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="component-title">Persistent Storage</div>
+                        <div class="component-description">
+                            Store model files, configuration, and user data using persistent volumes and storage classes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Ingress Configuration for LLM Service:</h4>
+                    <pre><code>apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: llm-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  tls:
+  - hosts:
+    - llm.example.com
+    secretName: llm-tls-secret
+  rules:
+  - host: llm.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: llm-service
+            port:
+              number: 80</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-traffic-light"></i> Load Balancing Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="simulateLoadBalancing()">Simulate Traffic</button>
+                        <button class="demo-btn" onclick="simulateFailover()">Test Failover</button>
+                        <button class="demo-btn" onclick="simulateAutoScaling()">Auto Scaling</button>
+                    </div>
+                    <div class="visualization-area" id="loadBalancingSimulation">
+                        <div style="text-align: center;">
+                            <i class="fas fa-traffic-light" style="font-size: 3rem; color: #f59e0b;"></i>
+                            <p style="margin-top: 1rem;">Click buttons above to simulate load balancing scenarios</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scaling Strategies -->
+            <section>
+                <h2><i class="fas fa-expand-arrows-alt"></i> Scaling Strategies</h2>
+                <p>LLM workloads can vary significantly in demand. Implementing proper scaling strategies ensures your application can handle peak loads while optimizing costs during low usage periods.</p>
+
+                <div class="container-architecture">
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </div>
+                        <div class="component-title">Horizontal Scaling</div>
+                        <div class="component-description">
+                            Add more instances of your LLM service to handle increased load. Kubernetes can automatically scale based on CPU/memory usage.
+                        </div>
+                    </div>
+                    
+                    <div class="architecture-component">
+                        <div class="component-icon">
+                            <i class="fas fa-arrows-alt-v"></i>
+                        </div>
+                        <div class="component-title">Vertical Scaling</div>
+                        <div class="component-description">
+                            Increase resources (CPU, memory, GPU) for individual instances to handle more complex or larger requests.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Horizontal Pod Autoscaler (HPA):</h4>
+                    <pre><code>apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: llm-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: llm-service
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+      selectPolicy: Min</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-chart-bar"></i> Scaling Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="simulateTrafficIncrease()">Traffic Spike</button>
+                        <button class="demo-btn" onclick="simulateTrafficDecrease()">Traffic Drop</button>
+                        <button class="demo-btn" onclick="simulateResourceOptimization()">Optimize Resources</button>
+                    </div>
+                    <div class="visualization-area" id="scalingSimulation">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-bar" style="font-size: 3rem; color: #f59e0b;"></i>
+                            <p style="margin-top: 1rem;">Click buttons above to simulate scaling scenarios</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section>
+                <div class="quiz-section">
+                    <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>1. What is the main advantage of containerization for LLM applications?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Faster model training</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Consistent environments across deployment stages</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Reduced model size</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Better model accuracy</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. What is the purpose of a Kubernetes Deployment?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Define network policies</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Manage persistent storage</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Declare the desired state of your application</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Configure load balancing</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. Why is resource management critical for LLM containers?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 3)">LLMs require minimal resources</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To prevent resource exhaustion and ensure stability</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Resource limits don't matter for containers</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To reduce container image size</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. What does Horizontal Pod Autoscaling (HPA) do?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 4)">Increases CPU and memory for existing pods</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">Automatically scales the number of pod replicas</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">Optimizes model inference speed</div>
+                            <div class="quiz-option" onclick="selectOption(this, 4)">Manages persistent storage allocation</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="checkAnswers()">Check Answers</button>
+                    <div id="quiz-result" style="margin-top: 1rem; font-weight: bold;"></div>
+                </div>
+            </section>
+
+            <!-- Progress & Next Steps -->
+            <div class="progress-section">
+                <span><i class="fas fa-chart-line"></i> Module Progress</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="moduleProgress" style="width: 75%"></div>
+                    </div>
+                </div>
+                <span id="progressText">75% Complete</span>
+            </div>
+
+            <!-- Module Navigation -->
+            <div class="module-navigation">
+                <a href="rag-systems.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: RAG Systems
+                </a>
+                <a href="model-serving-optimization.html" class="nav-btn next">
+                    Next Module: Model Serving & Optimization <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Module Resources</h3>
+                    <ul>
+                        <li><a href="https://docs.docker.com/" target="_blank">Docker Documentation</a></li>
+                        <li><a href="https://kubernetes.io/docs/" target="_blank">Kubernetes Documentation</a></li>
+                        <li><a href="https://docs.docker.com/compose/" target="_blank">Docker Compose Documentation</a></li>
+                        <li><a href="https://helm.sh/docs/" target="_blank">Helm Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Practice Exercises</h3>
+                    <ul>
+                        <li><a href="#">Download Exercise Files</a></li>
+                        <li><a href="#">Containerization Challenges</a></li>
+                        <li><a href="#">Kubernetes Deployment Guide</a></li>
+                        <li><a href="#">Discussion Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function simulateDockerBuild() {
+            const area = document.getElementById('dockerSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Docker Build Process</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+                        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Base Image</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Dependencies</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Code Copy</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Build</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Layers</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto;">✓</div>
+                                <div style="font-size: 0.8rem;">Complete</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Image built successfully: my-llm-app:latest<br>
+                            Size: 2.3GB<br>
+                            Layers: 15
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateDockerRun() {
+            const area = document.getElementById('dockerSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Container Running</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">RUN</div>
+                                <div style="font-size: 0.9rem; font-weight: bold;">Container Status</div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">Healthy</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">8000</div>
+                                <div style="font-size: 0.9rem; font-weight: bold;">Port</div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">Exposed</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Container ID: abc123def456<br>
+                            Uptime: 2 minutes<br>
+                            Memory: 1.2GB / 4GB
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateDockerPush() {
+            const area = document.getElementById('dockerSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Pushing to Registry</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #f59e0b; height: 100%; width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Pushing layers to registry...<br>
+                            Layer 1/15: Complete<br>
+                            Layer 2/15: Complete<br>
+                            ...<br>
+                            Push successful!
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateK8sDeploy() {
+            const area = document.getElementById('k8sSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Kubernetes Deployment</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 3</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Deployment: llm-service<br>
+                            Replicas: 3/3 ready<br>
+                            Status: Running
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateK8sScale() {
+            const area = document.getElementById('k8sSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Scaling Up</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 3</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto;">+</div>
+                                <div style="font-size: 0.8rem;">Pod 4</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto;">+</div>
+                                <div style="font-size: 0.8rem;">Pod 5</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Scaling from 3 to 5 replicas<br>
+                            New pods being created...
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateK8sScaleDown() {
+            const area = document.getElementById('k8sSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Scaling Down</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto;"></div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #ef4444; border-radius: 50%; margin: 0 auto 0.5rem auto;">-</div>
+                                <div style="font-size: 0.8rem;">Terminating</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Scaling from 5 to 2 replicas<br>
+                            Pod 3 being terminated...
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateMemoryUsage() {
+            const area = document.getElementById('monitoringSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Memory Usage Monitoring</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Container Memory</span>
+                                <span style="font-size: 0.9rem;">2.1GB / 4GB</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #f59e0b; height: 100%; width: 52%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">GPU Memory</span>
+                                <span style="font-size: 0.9rem;">8.2GB / 16GB</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #3b82f6; height: 100%; width: 51%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Status: Normal<br>
+                            Recommendation: Memory usage is within acceptable limits
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateGPUUsage() {
+            const area = document.getElementById('monitoringSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">GPU Usage Monitoring</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">GPU Utilization</span>
+                                <span style="font-size: 0.9rem;">75%</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #10b981; height: 100%; width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Temperature</span>
+                                <span style="font-size: 0.9rem;">68°C</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #f59e0b; height: 100%; width: 68%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Status: High utilization<br>
+                            Recommendation: Consider scaling if sustained high usage
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateNetworkTraffic() {
+            const area = document.getElementById('monitoringSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Network Traffic Monitoring</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Inbound Traffic</span>
+                                <span style="font-size: 0.9rem;">150 req/min</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #3b82f6; height: 100%; width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Outbound Traffic</span>
+                                <span style="font-size: 0.9rem;">2.1 GB/hour</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #8b5cf6; height: 100%; width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Status: Normal traffic levels<br>
+                            Latency: 45ms average
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateLoadBalancing() {
+            const area = document.getElementById('loadBalancingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Load Balancing Simulation</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">35 req/s</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">33 req/s</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+                                <div style="font-size: 0.8rem;">Pod 3</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">32 req/s</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">4</div>
+                                <div style="font-size: 0.8rem;">Pod 4</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">30 req/s</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Load balancer distributing traffic evenly<br>
+                            Total requests: 130 req/s<br>
+                            Average response time: 45ms
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateFailover() {
+            const area = document.getElementById('loadBalancingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Failover Test</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">Active</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #ef4444; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">✗</div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">Failed</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+                                <div style="font-size: 0.8rem;">Pod 3</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">Active</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">4</div>
+                                <div style="font-size: 0.8rem;">Pod 4</div>
+                                <div style="font-size: 0.7rem; color: #94a3b8;">Active</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Pod 2 failure detected<br>
+                            Traffic redistributed to remaining pods<br>
+                            Service remains available
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateAutoScaling() {
+            const area = document.getElementById('loadBalancingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Auto Scaling Triggered</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                                <div style="font-size: 0.8rem;">Pod 1</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+                                <div style="font-size: 0.8rem;">Pod 2</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+                                <div style="font-size: 0.8rem;">Pod 3</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #8b5cf6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">4</div>
+                                <div style="font-size: 0.8rem;">Pod 4</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #34d399; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">+</div>
+                                <div style="font-size: 0.8rem;">Pod 5</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 40px; height: 40px; background: #34d399; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">+</div>
+                                <div style="font-size: 0.8rem;">Pod 6</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            CPU utilization exceeded 70%<br>
+                            Auto-scaler triggered<br>
+                            Scaling from 4 to 6 pods
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateTrafficIncrease() {
+            const area = document.getElementById('scalingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Traffic Spike Detected</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Current Traffic</span>
+                                <span style="font-size: 0.9rem;">500 req/min</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #ef4444; height: 100%; width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">CPU Utilization</span>
+                                <span style="font-size: 0.9rem;">85%</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #ef4444; height: 100%; width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Auto-scaling triggered<br>
+                            Adding 2 more replicas<br>
+                            Traffic will be distributed
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateTrafficDecrease() {
+            const area = document.getElementById('scalingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Traffic Decrease</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">Current Traffic</span>
+                                <span style="font-size: 0.9rem;">50 req/min</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #10b981; height: 100%; width: 15%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.9rem;">CPU Utilization</span>
+                                <span style="font-size: 0.9rem;">25%</span>
+                            </div>
+                            <div style="background: #334155; height: 20px; border-radius: 10px; overflow: hidden;">
+                                <div style="background: #10b981; height: 100%; width: 25%;"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Low traffic detected<br>
+                            Scaling down to save costs<br>
+                            Removing 2 replicas
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function simulateResourceOptimization() {
+            const area = document.getElementById('scalingSimulation');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Resource Optimization</h4>
+                    <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: #10b981; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">✓</div>
+                                <div style="font-size: 0.9rem; font-weight: bold;">Before Optimization</div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">
+                                    CPU: 80%<br>
+                                    Memory: 75%<br>
+                                    Cost: High
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="width: 60px; height: 60px; background: #3b82f6; border-radius: 50%; margin: 0 auto 0.5rem auto; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">✓</div>
+                                <div style="font-size: 0.9rem; font-weight: bold;">After Optimization</div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">
+                                    CPU: 50%<br>
+                                    Memory: 45%<br>
+                                    Cost: Reduced by 35%
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #94a3b8;">
+                            Resource limits optimized<br>
+                            Image size reduced by 40%<br>
+                            Startup time improved by 60%
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectOption(element, questionNum) {
+            // Remove previous selections for this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const results = [
+                { question: 1, correct: 1 }, // Second option is correct (Consistent environments)
+                { question: 2, correct: 2 }, // Third option is correct (Declare desired state)
+                { question: 3, correct: 1 }, // Second option is correct (Prevent resource exhaustion)
+                { question: 4, correct: 1 }  // Second option is correct (Scales pod replicas)
+            ];
+
+            let score = 0;
+            results.forEach(result => {
+                const options = document.querySelectorAll(`.quiz-question:nth-child(${result.question}) .quiz-option`);
+                const selected = Array.from(options).findIndex(opt => opt.classList.contains('selected'));
+                if (selected === result.correct) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerText = `You scored ${score}/${results.length} correct answers!`;
+            resultDiv.style.color = score === results.length ? '#f59e0b' : '#ef4444';
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const progress = document.getElementById('moduleProgress');
+            const text = document.getElementById('progressText');
+            let width = parseInt(progress.style.width) || 75;
+            
+            if (width < 100) {
+                width += 25;
+                progress.style.width = width + '%';
+                text.innerText = width + '% Complete';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to progress bar to advance
+            document.querySelector('.progress-bar').addEventListener('click', updateProgress);
+        });
+    </script>
+</body>
+</html>

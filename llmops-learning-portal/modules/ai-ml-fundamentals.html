@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI & ML Fundamentals - LLMOps Academy</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Module-specific styles */
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .module-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .module-meta {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .module-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .module-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .learning-objectives {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .objective-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .objective-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .objective-item h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interactive-demo {
+            background: #1a202c;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #4a5568;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .visualization-area {
+            height: 300px;
+            background: #2d3748;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .concept-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .concept-section h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .code-example {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-section {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-option {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        
+        .progress-bar-container {
+            flex-grow: 1;
+            margin: 0 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn.prev:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .module-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem 1rem;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Module Header -->
+    <header class="module-header">
+        <div class="module-container">
+            <h1 class="module-title">AI & ML Fundamentals</h1>
+            <div class="module-meta">
+                <i class="fas fa-clock"></i> 2 hours • <i class="fas fa-level-up-alt"></i> Beginner Level
+            </div>
+            <div class="module-tools">
+                <span class="tool-tag">Scikit-learn</span>
+                <span class="tool-tag">TensorFlow</span>
+                <span class="tool-tag">PyTorch</span>
+                <span class="tool-tag">NumPy</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Module Content -->
+    <div class="module-container">
+        <div class="module-content">
+            <!-- Learning Objectives -->
+            <div class="learning-objectives">
+                <h3><i class="fas fa-graduation-cap"></i> Learning Objectives</h3>
+                <div class="objective-list">
+                    <div class="objective-item">
+                        <h4>Understand AI Fundamentals</h4>
+                        <p>Learn the core concepts of Artificial Intelligence and its applications in modern technology.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Master ML Basics</h4>
+                        <p>Understand the difference between supervised and unsupervised learning algorithms.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Explore Deep Learning</h4>
+                        <p>Discover neural networks and how they power modern AI applications.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Learn Model Evaluation</h4>
+                        <p>Master techniques for evaluating and improving model performance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <section>
+                <h2><i class="fas fa-book-open"></i> Introduction to AI & ML</h2>
+                <p>Artificial Intelligence (AI) is the simulation of human intelligence processes by machines, especially computer systems. These processes include learning, reasoning, problem-solving, perception, and language understanding.</p>
+                
+                <div class="concept-section">
+                    <h3>What is Artificial Intelligence?</h3>
+                    <p>AI encompasses a wide range of technologies that enable machines to perform tasks that typically require human intelligence. From simple rule-based systems to complex neural networks, AI has evolved significantly over the decades.</p>
+                    
+                    <div class="interactive-demo">
+                        <h4><i class="fas fa-magic"></i> AI in Everyday Life</h4>
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="showAIDemo('voice')">Voice Assistants</button>
+                            <button class="demo-btn" onclick="showAIDemo('recommendation')">Recommendations</button>
+                            <button class="demo-btn" onclick="showAIDemo('vision')">Computer Vision</button>
+                        </div>
+                        <div class="visualization-area" id="aiDemoArea">
+                            <div style="text-align: center;">
+                                <i class="fas fa-play" style="font-size: 3rem; color: #667eea;"></i>
+                                <p style="margin-top: 1rem;">Click a button above to see AI in action</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Machine Learning Section -->
+            <section>
+                <h2><i class="fas fa-brain"></i> Machine Learning Fundamentals</h2>
+                <p>Machine Learning is a subset of AI that enables systems to automatically learn and improve from experience without being explicitly programmed. ML algorithms build a model based on sample data, known as "training data", to make predictions or decisions without being explicitly programmed to do so.</p>
+
+                <div class="concept-section">
+                    <h3>Types of Machine Learning</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-check-circle" style="color: #48bb78;"></i> Supervised Learning</h4>
+                            <p>Algorithms learn from labeled training data to make predictions on new, unseen data.</p>
+                            <ul>
+                                <li>Classification (spam detection)</li>
+                                <li>Regression (price prediction)</li>
+                                <li>Image recognition</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-search" style="color: #667eea;"></i> Unsupervised Learning</h4>
+                            <p>Algorithms find hidden patterns in unlabeled data without explicit guidance.</p>
+                            <ul>
+                                <li>Clustering (customer segmentation)</li>
+                                <li>Dimensionality reduction</li>
+                                <li>Anomaly detection</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-gamepad" style="color: #ed8936;"></i> Reinforcement Learning</h4>
+                            <p>Agents learn to make decisions by performing actions and receiving rewards or penalties.</p>
+                            <ul>
+                                <li>Game playing (AlphaGo)</li>
+                                <li>Robotics</li>
+                                <li>Autonomous vehicles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-chart-line"></i> Learning Process Visualization</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showLearningDemo('supervised')">Supervised Learning</button>
+                        <button class="demo-btn" onclick="showLearningDemo('unsupervised')">Unsupervised Learning</button>
+                    </div>
+                    <div class="visualization-area" id="learningDemoArea">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-network" style="font-size: 3rem; color: #667eea;"></i>
+                            <p style="margin-top: 1rem;">Select a learning type to visualize the process</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deep Learning Section -->
+            <section>
+                <h2><i class="fas fa-layer-group"></i> Deep Learning & Neural Networks</h2>
+                <p>Deep Learning is a subset of machine learning that uses neural networks with many layers (hence "deep") to learn from data. These networks are inspired by the structure and function of the human brain.</p>
+
+                <div class="concept-section">
+                    <h3>Neural Network Basics</h3>
+                    <p>Neural networks consist of layers of interconnected nodes, or "neurons". Each connection has an associated weight that adjusts during training. The network learns by adjusting these weights to minimize prediction errors.</p>
+                    
+                    <div class="interactive-demo">
+                        <h4><i class="fas fa-cogs"></i> Neural Network Simulator</h4>
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="simulateNeuralNetwork()">Train Network</button>
+                            <button class="demo-btn" onclick="resetNetwork()">Reset</button>
+                            <button class="demo-btn" onclick="toggleNetworkView()">Toggle View</button>
+                        </div>
+                        <div class="visualization-area" id="networkDemoArea">
+                            <div style="text-align: center;">
+                                <i class="fas fa-brain" style="font-size: 3rem; color: #667eea;"></i>
+                                <p style="margin-top: 1rem;">Click "Train Network" to see neural network learning in action</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Simple Neural Network with TensorFlow:</h4>
+                    <pre><code>import tensorflow as tf
+from tensorflow import keras
+
+# Create a simple neural network
+model = keras.Sequential([
+    keras.layers.Dense(128, activation='relu', input_shape=(784,)),
+    keras.layers.Dropout(0.2),
+    keras.layers.Dense(10, activation='softmax')
+])
+
+# Compile the model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Train the model
+model.fit(x_train, y_train, epochs=5)
+
+# Make predictions
+predictions = model.predict(x_test)</code></pre>
+                </div>
+            </section>
+
+            <!-- Model Evaluation Section -->
+            <section>
+                <h2><i class="fas fa-chart-bar"></i> Model Evaluation & Metrics</h2>
+                <p>Evaluating machine learning models is crucial to understand their performance and ensure they generalize well to new data. Different metrics are used depending on the type of problem being solved.</p>
+
+                <div class="concept-section">
+                    <h3>Common Evaluation Metrics</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-check-double" style="color: #48bb78;"></i> Accuracy</h4>
+                            <p>Percentage of correct predictions out of total predictions.</p>
+                            <div class="code-example" style="font-size: 0.9rem; margin-top: 1rem;">
+                                Accuracy = (TP + TN) / (TP + TN + FP + FN)
+                            </div>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-search-plus" style="color: #667eea;"></i> Precision & Recall</h4>
+                            <p>Precision: True positives / (True positives + False positives)</p>
+                            <p>Recall: True positives / (True positives + False negatives)</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-chart-line" style="color: #ed8936;"></i> F1 Score</h4>
+                            <p>Harmonic mean of precision and recall.</p>
+                            <div class="code-example" style="font-size: 0.9rem; margin-top: 1rem;">
+                                F1 = 2 * (Precision * Recall) / (Precision + Recall)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-calculator"></i> Metric Calculator</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div>
+                            <label>True Positives:</label>
+                            <input type="number" id="tp" value="85" class="metric-input">
+                        </div>
+                        <div>
+                            <label>True Negatives:</label>
+                            <input type="number" id="tn" value="90" class="metric-input">
+                        </div>
+                        <div>
+                            <label>False Positives:</label>
+                            <input type="number" id="fp" value="5" class="metric-input">
+                        </div>
+                        <div>
+                            <label>False Negatives:</label>
+                            <input type="number" id="fn" value="10" class="metric-input">
+                        </div>
+                    </div>
+                    <button class="demo-btn" onclick="calculateMetrics()">Calculate Metrics</button>
+                    
+                    <div style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #667eea;">Accuracy</h4>
+                            <div id="accuracy-result" style="font-size: 1.5rem; font-weight: bold; color: #48bb78;">0%</div>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #667eea;">Precision</h4>
+                            <div id="precision-result" style="font-size: 1.5rem; font-weight: bold; color: #ed8936;">0%</div>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #667eea;">Recall</h4>
+                            <div id="recall-result" style="font-size: 1.5rem; font-weight: bold; color: #667eea;">0%</div>
+                        </div>
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #667eea;">F1 Score</h4>
+                            <div id="f1-result" style="font-size: 1.5rem; font-weight: bold; color: #9f7aea;">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section>
+                <div class="quiz-section">
+                    <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>1. What is the main difference between supervised and unsupervised learning?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Supervised learning uses labeled data</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Unsupervised learning is faster</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Supervised learning doesn't need training data</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Unsupervised learning requires more computational power</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. Which metric is most important when false negatives are more costly than false positives?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Accuracy</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Precision</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Recall</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">F1 Score</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. What does overfitting mean in machine learning?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Model performs well on training data but poorly on new data</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Model is too simple to capture patterns</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Model has too few parameters</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">Model training takes too long</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="checkAnswers()">Check Answers</button>
+                    <div id="quiz-result" style="margin-top: 1rem; font-weight: bold;"></div>
+                </div>
+            </section>
+
+            <!-- Progress & Next Steps -->
+            <div class="progress-section">
+                <span><i class="fas fa-chart-line"></i> Module Progress</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="moduleProgress" style="width: 25%"></div>
+                    </div>
+                </div>
+                <span id="progressText">25% Complete</span>
+            </div>
+
+            <!-- Module Navigation -->
+            <div class="module-navigation">
+                <a href="../index.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Back to Curriculum
+                </a>
+                <a href="nlp-transformer-basics.html" class="nav-btn next">
+                    Next Module: NLP & Transformer Basics <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Module Resources</h3>
+                    <ul>
+                        <li><a href="https://scikit-learn.org/stable/" target="_blank">Scikit-learn Documentation</a></li>
+                        <li><a href="https://www.tensorflow.org/guide" target="_blank">TensorFlow Guide</a></li>
+                        <li><a href="https://pytorch.org/tutorials/" target="_blank">PyTorch Tutorials</a></li>
+                        <li><a href="https://www.coursera.org/learn/machine-learning" target="_blank">Andrew Ng's ML Course</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Practice Exercises</h3>
+                    <ul>
+                        <li><a href="#">Download Exercise Files</a></li>
+                        <li><a href="#">Interactive Coding Challenges</a></li>
+                        <li><a href="#">Additional Reading Materials</a></li>
+                        <li><a href="#">Discussion Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Demo functions
+        function showAIDemo(type) {
+            const area = document.getElementById('aiDemoArea');
+            const demos = {
+                'voice': {
+                    title: 'Voice Assistants',
+                    content: 'AI analyzes your voice commands, converts speech to text, understands intent, and responds with appropriate actions.',
+                    icon: 'fas fa-microphone'
+                },
+                'recommendation': {
+                    title: 'Recommendation Systems',
+                    content: 'AI analyzes your behavior and preferences to suggest products, content, or services you might like.',
+                    icon: 'fas fa-thumbs-up'
+                },
+                'vision': {
+                    title: 'Computer Vision',
+                    content: 'AI processes and analyzes visual information from images and videos to recognize objects, faces, and patterns.',
+                    icon: 'fas fa-eye'
+                }
+            };
+            
+            const demo = demos[type];
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="${demo.icon}" style="font-size: 3rem; color: #667eea;"></i>
+                    <h4 style="margin: 1rem 0 0.5rem 0;">${demo.title}</h4>
+                    <p>${demo.content}</p>
+                </div>
+            `;
+        }
+
+        function showLearningDemo(type) {
+            const area = document.getElementById('learningDemoArea');
+            if (type === 'supervised') {
+                area.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="display: inline-block; text-align: left;">
+                            <h4 style="margin-bottom: 1rem;">Supervised Learning Process</h4>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                                <p><strong>Training Data:</strong> Labeled examples (input, output pairs)</p>
+                                <p><strong>Algorithm:</strong> Learns mapping from inputs to outputs</p>
+                                <p><strong>Prediction:</strong> Makes predictions on new, unseen data</p>
+                                <p><strong>Feedback:</strong> Compares predictions to actual labels</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                area.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="display: inline-block; text-align: left;">
+                            <h4 style="margin-bottom: 1rem;">Unsupervised Learning Process</h4>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                                <p><strong>Training Data:</strong> Unlabeled examples (no output labels)</p>
+                                <p><strong>Algorithm:</strong> Finds hidden patterns and structures</p>
+                                <p><strong>Discovery:</strong> Groups similar data points together</p>
+                                <p><strong>Insights:</strong> Reveals underlying data distribution</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function simulateNeuralNetwork() {
+            const area = document.getElementById('networkDemoArea');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="display: inline-block;">
+                        <h4 style="margin-bottom: 1rem;">Neural Network Training Simulation</h4>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="text-align: center;">
+                                    <div style="width: 20px; height: 20px; background: #667eea; border-radius: 50%; display: inline-block;"></div>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem;">Input Layer</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="width: 20px; height: 20px; background: #764ba2; border-radius: 50%; display: inline-block;"></div>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem;">Hidden Layer</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="width: 20px; height: 20px; background: #9f7aea; border-radius: 50%; display: inline-block;"></div>
+                                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem;">Output Layer</p>
+                                </div>
+                            </div>
+                            <div style="text-align: left;">
+                                <p style="margin: 0.5rem 0;"><i class="fas fa-check-circle" style="color: #48bb78;"></i> Forward propagation: Data flows through network</p>
+                                <p style="margin: 0.5rem 0;"><i class="fas fa-sync-alt" style="color: #ed8936;"></i> Backpropagation: Errors flow backward</p>
+                                <p style="margin: 0.5rem 0;"><i class="fas fa-chart-line" style="color: #667eea;"></i> Weights update: Network learns from mistakes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetNetwork() {
+            const area = document.getElementById('networkDemoArea');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-brain" style="font-size: 3rem; color: #667eea;"></i>
+                    <p style="margin-top: 1rem;">Click "Train Network" to see neural network learning in action</p>
+                </div>
+            `;
+        }
+
+        function toggleNetworkView() {
+            // Toggle between different visualization modes
+            alert('Network view toggled! In a real implementation, this would show different visualization modes.');
+        }
+
+        function calculateMetrics() {
+            const tp = parseInt(document.getElementById('tp').value) || 0;
+            const tn = parseInt(document.getElementById('tn').value) || 0;
+            const fp = parseInt(document.getElementById('fp').value) || 0;
+            const fn = parseInt(document.getElementById('fn').value) || 0;
+
+            const accuracy = ((tp + tn) / (tp + tn + fp + fn)) * 100;
+            const precision = (tp / (tp + fp)) * 100;
+            const recall = (tp / (tp + fn)) * 100;
+            const f1 = (2 * precision * recall) / (precision + recall);
+
+            document.getElementById('accuracy-result').innerText = accuracy.toFixed(1) + '%';
+            document.getElementById('precision-result').innerText = precision.toFixed(1) + '%';
+            document.getElementById('recall-result').innerText = recall.toFixed(1) + '%';
+            document.getElementById('f1-result').innerText = f1.toFixed(1) + '%';
+        }
+
+        function selectOption(element, questionNum) {
+            // Remove previous selections for this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const results = [
+                { question: 1, correct: 0 }, // First option is correct
+                { question: 2, correct: 2 }, // Third option is correct
+                { question: 3, correct: 0 }  // First option is correct
+            ];
+
+            let score = 0;
+            results.forEach(result => {
+                const options = document.querySelectorAll(`.quiz-question:nth-child(${result.question}) .quiz-option`);
+                const selected = Array.from(options).findIndex(opt => opt.classList.contains('selected'));
+                if (selected === result.correct) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerText = `You scored ${score}/${results.length} correct answers!`;
+            resultDiv.style.color = score === results.length ? '#48bb78' : '#ed8936';
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const progress = document.getElementById('moduleProgress');
+            const text = document.getElementById('progressText');
+            let width = parseInt(progress.style.width) || 25;
+            
+            if (width < 100) {
+                width += 25;
+                progress.style.width = width + '%';
+                text.innerText = width + '% Complete';
+            }
+        }
+
+        // Add click event to progress bar to advance
+        document.querySelector('.progress-bar').addEventListener('click', updateProgress);
+    </script>
+</body>
+</html>

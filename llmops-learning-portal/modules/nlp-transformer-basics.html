@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP & Transformer Basics - LLMOps Academy</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Module-specific styles */
+        .module-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .module-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .module-meta {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .module-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .module-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .learning-objectives {
+            background: #f8fafc;
+            border-left: 4px solid #667eea;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .objective-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .objective-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .objective-item h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interactive-demo {
+            background: #1a202c;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #4a5568;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .visualization-area {
+            height: 300px;
+            background: #2d3748;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .concept-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .concept-section h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .code-example {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .transformer-visualization {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .attention-heatmap {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .attention-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            margin-top: 1rem;
+        }
+        
+        .attention-cell {
+            width: 100%;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .attention-cell:hover {
+            transform: scale(1.1);
+        }
+        
+        .attention-cell.active {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+        
+        .word-tokens {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .token-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .token {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .token:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .quiz-section {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-option {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        
+        .progress-bar-container {
+            flex-grow: 1;
+            margin: 0 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .module-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .nav-btn.prev:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-btn.next:hover {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .module-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem 1rem;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .transformer-visualization {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Module Header -->
+    <header class="module-header">
+        <div class="module-container">
+            <h1 class="module-title">NLP & Transformer Basics</h1>
+            <div class="module-meta">
+                <i class="fas fa-clock"></i> 3 hours • <i class="fas fa-level-up-alt"></i> Beginner Level
+            </div>
+            <div class="module-tools">
+                <span class="tool-tag">Hugging Face</span>
+                <span class="tool-tag">spaCy</span>
+                <span class="tool-tag">NLTK</span>
+                <span class="tool-tag">Transformers</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Module Content -->
+    <div class="module-container">
+        <div class="module-content">
+            <!-- Learning Objectives -->
+            <div class="learning-objectives">
+                <h3><i class="fas fa-graduation-cap"></i> Learning Objectives</h3>
+                <div class="objective-list">
+                    <div class="objective-item">
+                        <h4>Master Text Preprocessing</h4>
+                        <p>Learn tokenization, stemming, lemmatization, and other essential NLP preprocessing techniques.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Understand Word Embeddings</h4>
+                        <p>Discover how words are represented as vectors and the evolution from word2vec to modern embeddings.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Learn Attention Mechanism</h4>
+                        <p>Understand the core concept that powers modern language models and enables context understanding.</p>
+                    </div>
+                    <div class="objective-item">
+                        <h4>Master Transformer Architecture</h4>
+                        <p>Explore the revolutionary architecture that powers GPT, BERT, and other state-of-the-art models.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <section>
+                <h2><i class="fas fa-book-open"></i> Introduction to NLP & Transformers</h2>
+                <p>Natural Language Processing (NLP) is a field of artificial intelligence that focuses on the interaction between computers and human language. The transformer architecture, introduced in 2017, revolutionized NLP by enabling models to process text in parallel and capture long-range dependencies.</p>
+                
+                <div class="concept-section">
+                    <h3>What is Natural Language Processing?</h3>
+                    <p>NLP enables computers to understand, interpret, and generate human language. From simple tasks like spell checking to complex applications like machine translation and sentiment analysis, NLP has become essential in modern AI systems.</p>
+                    
+                    <div class="interactive-demo">
+                        <h4><i class="fas fa-magic"></i> NLP in Action</h4>
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="showNLPTask('tokenization')">Tokenization</button>
+                            <button class="demo-btn" onclick="showNLPTask('sentiment')">Sentiment Analysis</button>
+                            <button class="demo-btn" onclick="showNLPTask('translation')">Translation</button>
+                        </div>
+                        <div class="visualization-area" id="nlpDemoArea">
+                            <div style="text-align: center;">
+                                <i class="fas fa-play" style="font-size: 3rem; color: #667eea;"></i>
+                                <p style="margin-top: 1rem;">Click a button above to see NLP in action</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Text Preprocessing Section -->
+            <section>
+                <h2><i class="fas fa-cogs"></i> Text Preprocessing Techniques</h2>
+                <p>Before text can be processed by machine learning models, it needs to be cleaned and transformed into a suitable format. This process is called text preprocessing and is crucial for the performance of NLP systems.</p>
+
+                <div class="concept-section">
+                    <h3>Essential Preprocessing Steps</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-cut" style="color: #667eea;"></i> Tokenization</h4>
+                            <p>Breaking text into smaller units (tokens) like words, subwords, or characters.</p>
+                            <div class="code-example" style="font-size: 0.9rem; margin-top: 1rem;">
+                                "Hello world!" → ["Hello", "world", "!"]
+                            </div>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-lowercase" style="color: #48bb78;"></i> Normalization</h4>
+                            <p>Converting text to a standard format (lowercase, removing punctuation, etc.).</p>
+                            <div class="code-example" style="font-size: 0.9rem; margin-top: 1rem;">
+                                "HELLO World!" → "hello world"
+                            </div>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-leaf" style="color: #ed8936;"></i> Stemming & Lemmatization</h4>
+                            <p>Reducing words to their root forms to normalize vocabulary.</p>
+                            <div class="code-example" style="font-size: 0.9rem; margin-top: 1rem;">
+                                "running" → "run" (lemmatization)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-sliders-h"></i> Text Preprocessing Simulator</h4>
+                    <div style="margin-bottom: 2rem;">
+                        <label for="textInput" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Enter text to process:</label>
+                        <input type="text" id="textInput" value="Hello World! This is a test sentence." style="width: 100%; padding: 1rem; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 1rem;">
+                    </div>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="processText('tokenize')">Tokenize</button>
+                        <button class="demo-btn" onclick="processText('normalize')">Normalize</button>
+                        <button class="demo-btn" onclick="processText('stem')">Stem</button>
+                        <button class="demo-btn" onclick="processText('all')">Full Pipeline</button>
+                    </div>
+                    <div class="visualization-area" id="textProcessingArea">
+                        <div style="text-align: center;">
+                            <i class="fas fa-cogs" style="font-size: 3rem; color: #667eea;"></i>
+                            <p style="margin-top: 1rem;">Enter text and click a processing button to see the results</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Word Embeddings Section -->
+            <section>
+                <h2><i class="fas fa-vector-square"></i> Word Embeddings</h2>
+                <p>Word embeddings are numerical representations of text that capture semantic meaning. They transform words into dense vectors that machine learning models can understand and process.</p>
+
+                <div class="concept-section">
+                    <h3>Evolution of Word Representations</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-hashtag" style="color: #667eea;"></i> One-Hot Encoding</h4>
+                            <p>Each word is represented as a sparse vector with a single 1 and many 0s.</p>
+                            <ul>
+                                <li>Simple but inefficient</li>
+                                <li>No semantic relationships</li>
+                                <li>High dimensional</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-seedling" style="color: #48bb78;"></i> Word2Vec</h4>
+                            <p>Learned dense vectors that capture semantic relationships between words.</p>
+                            <ul>
+                                <li>Captures semantic meaning</li>
+                                <li>Dense representations</li>
+                                <li>Fixed vocabulary</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-brain" style="color: #ed8936;"></i> Contextual Embeddings</h4>
+                            <p>Word representations that change based on context (BERT, GPT, etc.).</p>
+                            <ul>
+                                <li>Context-dependent</li>
+                                <li>State-of-the-art performance</li>
+                                <li>Computationally intensive</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-chart-network"></i> Embedding Visualization</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="showEmbedding('word2vec')">Word2Vec</button>
+                        <button class="demo-btn" onclick="showEmbedding('bert')">BERT</button>
+                        <button class="demo-btn" onclick="showEmbedding('glove')">GloVe</button>
+                    </div>
+                    <div class="visualization-area" id="embeddingArea">
+                        <div style="text-align: center;">
+                            <i class="fas fa-chart-scatter" style="font-size: 3rem; color: #667eea;"></i>
+                            <p style="margin-top: 1rem;">Select an embedding method to visualize word relationships</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Attention Mechanism Section -->
+            <section>
+                <h2><i class="fas fa-eye"></i> Attention Mechanism</h2>
+                <p>The attention mechanism is a key innovation that allows models to focus on different parts of the input when making predictions. It's the foundation of the transformer architecture and enables models to handle long-range dependencies.</p>
+
+                <div class="concept-section">
+                    <h3>How Attention Works</h3>
+                    <p>Attention allows a model to weigh the importance of different words in a sentence when processing each word. Instead of treating all words equally, the model learns to focus on the most relevant information.</p>
+                    
+                    <div class="transformer-visualization">
+                        <div class="attention-heatmap">
+                            <h4>Attention Heatmap</h4>
+                            <p>Shows how much each word attends to every other word:</p>
+                            <div class="attention-grid" id="attentionGrid">
+                                <!-- Attention cells will be generated here -->
+                            </div>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; color: #667eea;">
+                                <i class="fas fa-info-circle"></i> Hover over cells to see attention patterns
+                            </div>
+                        </div>
+                        
+                        <div class="word-tokens">
+                            <h4>Input Sentence</h4>
+                            <p>Example: "The cat sat on the mat"</p>
+                            <div class="token-list" id="tokenList">
+                                <!-- Tokens will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-search"></i> Attention Pattern Explorer</h4>
+                    <div style="margin-bottom: 2rem;">
+                        <label for="sentenceInput" style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Enter a sentence:</label>
+                        <input type="text" id="sentenceInput" value="The cat sat on the mat" style="width: 100%; padding: 1rem; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 1rem;">
+                    </div>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="analyzeAttention()">Analyze Attention</button>
+                        <button class="demo-btn" onclick="resetAttention()">Reset</button>
+                    </div>
+                    <div class="visualization-area" id="attentionAnalysisArea">
+                        <div style="text-align: center;">
+                            <i class="fas fa-eye" style="font-size: 3rem; color: #667eea;"></i>
+                            <p style="margin-top: 1rem;">Enter a sentence and click "Analyze Attention" to see attention patterns</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transformer Architecture Section -->
+            <section>
+                <h2><i class="fas fa-layer-group"></i> Transformer Architecture</h2>
+                <p>The transformer architecture, introduced in "Attention is All You Need" (2017), revolutionized NLP by relying entirely on attention mechanisms, dispensing with recurrent and convolutional structures entirely.</p>
+
+                <div class="concept-section">
+                    <h3>Key Components of Transformers</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-exchange-alt" style="color: #667eea;"></i> Self-Attention</h4>
+                            <p>Allows each position to attend to all positions in the previous layer.</p>
+                            <ul>
+                                <li>Computes attention scores</li>
+                                <li>Weighted sum of values</li>
+                                <li>Parallelizable</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-plus" style="color: #48bb78;"></i> Multi-Head Attention</h4>
+                            <p>Runs multiple attention mechanisms in parallel to capture different types of relationships.</p>
+                            <ul>
+                                <li>Multiple attention heads</li>
+                                <li>Different representation subspaces</li>
+                                <li>Richer representations</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-cog" style="color: #ed8936;"></i> Feed-Forward Networks</h4>
+                            <p>Position-wise fully connected networks applied to each position separately.</p>
+                            <ul>
+                                <li>Non-linear transformations</li>
+                                <li>Applied to each position</li>
+                                <li>Learnable parameters</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4><i class="fas fa-arrows-alt-v" style="color: #9f7aea;"></i> Positional Encoding</h4>
+                            <p>Injects information about the position of tokens in the sequence.</p>
+                            <ul>
+                                <li>Sinusoidal functions</li>
+                                <li>Order information</li>
+                                <li>No recurrence needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-example">
+                    <h4>Transformer Block with PyTorch:</h4>
+                    <pre><code>import torch
+import torch.nn as nn
+
+class TransformerBlock(nn.Module):
+    def __init__(self, embed_dim, num_heads, ff_dim, dropout=0.1):
+        super().__init__()
+        self.attention = nn.MultiheadAttention(embed_dim, num_heads)
+        self.norm1 = nn.LayerNorm(embed_dim)
+        self.norm2 = nn.LayerNorm(embed_dim)
+        self.feed_forward = nn.Sequential(
+            nn.Linear(embed_dim, ff_dim),
+            nn.ReLU(),
+            nn.Linear(ff_dim, embed_dim)
+        )
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        # Self-attention
+        attn_out, _ = self.attention(x, x, x)
+        x = self.norm1(x + self.dropout(attn_out))
+        
+        # Feed-forward
+        ff_out = self.feed_forward(x)
+        x = self.norm2(x + self.dropout(ff_out))
+        return x</code></pre>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4><i class="fas fa-puzzle-piece"></i> Transformer Architecture Builder</h4>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="buildTransformer('encoder')">Encoder</button>
+                        <button class="demo-btn" onclick="buildTransformer('decoder')">Decoder</button>
+                        <button class="demo-btn" onclick="buildTransformer('full')">Full Transformer</button>
+                    </div>
+                    <div class="visualization-area" id="transformerBuilderArea">
+                        <div style="text-align: center;">
+                            <i class="fas fa-layer-group" style="font-size: 3rem; color: #667eea;"></i>
+                            <p style="margin-top: 1rem;">Select a transformer component to visualize its architecture</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section>
+                <div class="quiz-section">
+                    <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>1. What is the main advantage of attention mechanisms over RNNs?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Parallel processing capability</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Better handling of short sequences</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Lower computational complexity</div>
+                            <div class="quiz-option" onclick="selectOption(this, 1)">Easier to train</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. What does multi-head attention allow the model to do?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Process multiple sentences simultaneously</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Learn different types of relationships</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Reduce model parameters</div>
+                            <div class="quiz-option" onclick="selectOption(this, 2)">Improve training speed</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. Why are positional encodings necessary in transformers?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To provide word meanings</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To maintain sequence order information</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To reduce computational complexity</div>
+                            <div class="quiz-option" onclick="selectOption(this, 3)">To improve model accuracy</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="checkAnswers()">Check Answers</button>
+                    <div id="quiz-result" style="margin-top: 1rem; font-weight: bold;"></div>
+                </div>
+            </section>
+
+            <!-- Progress & Next Steps -->
+            <div class="progress-section">
+                <span><i class="fas fa-chart-line"></i> Module Progress</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="moduleProgress" style="width: 33%"></div>
+                    </div>
+                </div>
+                <span id="progressText">33% Complete</span>
+            </div>
+
+            <!-- Module Navigation -->
+            <div class="module-navigation">
+                <a href="../index.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Back to Curriculum
+                </a>
+                <a href="advanced-prompt-engineering.html" class="nav-btn next">
+                    Next Module: Advanced Prompt Engineering <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Module Resources</h3>
+                    <ul>
+                        <li><a href="https://huggingface.co/course/chapter1" target="_blank">Hugging Face NLP Course</a></li>
+                        <li><a href="https://spacy.io/usage" target="_blank">spaCy Documentation</a></li>
+                        <li><a href="https://www.nltk.org/" target="_blank">NLTK Documentation</a></li>
+                        <li><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank">The Illustrated Transformer</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Practice Exercises</h3>
+                    <ul>
+                        <li><a href="#">Download Exercise Files</a></li>
+                        <li><a href="#">Interactive NLP Challenges</a></li>
+                        <li><a href="#">Additional Reading Materials</a></li>
+                        <li><a href="#">Discussion Forum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Demo functions
+        function showNLPTask(task) {
+            const area = document.getElementById('nlpDemoArea');
+            const demos = {
+                'tokenization': {
+                    title: 'Tokenization',
+                    content: 'Breaking text into smaller units like words, subwords, or characters. This is the first step in most NLP pipelines.',
+                    example: '"Hello world!" → ["Hello", "world", "!"]',
+                    icon: 'fas fa-cut'
+                },
+                'sentiment': {
+                    title: 'Sentiment Analysis',
+                    content: 'Determining the emotional tone of text, classifying it as positive, negative, or neutral.',
+                    example: '"I love this product!" → Positive',
+                    icon: 'fas fa-smile'
+                },
+                'translation': {
+                    title: 'Machine Translation',
+                    content: 'Automatically translating text from one language to another while preserving meaning.',
+                    example: '"Hello" (English) → "Hola" (Spanish)',
+                    icon: 'fas fa-globe'
+                }
+            };
+            
+            const demo = demos[task];
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="${demo.icon}" style="font-size: 3rem; color: #667eea;"></i>
+                    <h4 style="margin: 1rem 0 0.5rem 0;">${demo.title}</h4>
+                    <p>${demo.content}</p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <strong>Example:</strong> ${demo.example}
+                    </div>
+                </div>
+            `;
+        }
+
+        function processText(operation) {
+            const input = document.getElementById('textInput').value;
+            const area = document.getElementById('textProcessingArea');
+            
+            let result = input;
+            
+            if (operation === 'tokenize') {
+                result = input.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+                result = result.filter(token => token.length > 0);
+            } else if (operation === 'normalize') {
+                result = input.toLowerCase().replace(/[^\w\s]/g, '');
+            } else if (operation === 'stem') {
+                // Simple stemming simulation
+                result = input.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).map(word => {
+                    if (word.endsWith('ing')) return word.slice(0, -3);
+                    if (word.endsWith('ed')) return word.slice(0, -2);
+                    return word;
+                }).join(' ');
+            } else if (operation === 'all') {
+                result = input.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+                result = result.filter(token => token.length > 0).map(word => {
+                    if (word.endsWith('ing')) return word.slice(0, -3);
+                    if (word.endsWith('ed')) return word.slice(0, -2);
+                    return word;
+                });
+            }
+            
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Processing Result</h4>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;">
+                        ${Array.isArray(result) ? result.join(' | ') : result}
+                    </div>
+                    <p style="margin-top: 1rem; color: #cbd5e0;">Operation: ${operation}</p>
+                </div>
+            `;
+        }
+
+        function showEmbedding(type) {
+            const area = document.getElementById('embeddingArea');
+            const embeddings = {
+                'word2vec': {
+                    title: 'Word2Vec Embeddings',
+                    content: 'Learned word representations that capture semantic relationships. Words with similar meanings have similar vector representations.',
+                    example: 'king - man + woman ≈ queen',
+                    icon: 'fas fa-seedling'
+                },
+                'bert': {
+                    title: 'BERT Embeddings',
+                    content: 'Contextual embeddings that change based on the surrounding words. Each word can have different representations in different contexts.',
+                    example: 'bank (financial) vs bank (river)',
+                    icon: 'fas fa-brain'
+                },
+                'glove': {
+                    title: 'GloVe Embeddings',
+                    content: 'Global Vectors for Word Representation. Uses co-occurrence statistics to learn word embeddings.',
+                    example: 'Captures global word relationships',
+                    icon: 'fas fa-globe'
+                }
+            };
+            
+            const embedding = embeddings[type];
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="${embedding.icon}" style="font-size: 3rem; color: #667eea;"></i>
+                    <h4 style="margin: 1rem 0 0.5rem 0;">${embedding.title}</h4>
+                    <p>${embedding.content}</p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <strong>Example:</strong> ${embedding.example}
+                    </div>
+                </div>
+            `;
+        }
+
+        function analyzeAttention() {
+            const sentence = document.getElementById('sentenceInput').value || "The cat sat on the mat";
+            const tokens = sentence.split(/\s+/);
+            const area = document.getElementById('attentionAnalysisArea');
+            
+            // Generate random attention weights for visualization
+            let attentionMatrix = '';
+            for (let i = 0; i < tokens.length; i++) {
+                for (let j = 0; j < tokens.length; j++) {
+                    const weight = Math.random();
+                    const intensity = Math.floor(weight * 255);
+                    attentionMatrix += `<div class="attention-cell" style="background: rgba(102, 126, 234, ${weight})" onclick="showAttentionDetails(${i}, ${j})"></div>`;
+                }
+            }
+            
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Attention Analysis</h4>
+                    <div style="display: grid; grid-template-columns: repeat(${tokens.length}, 1fr); gap: 5px; margin-bottom: 2rem;">
+                        ${attentionMatrix}
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                        ${tokens.map((token, i) => `<span style="background: #667eea; color: white; padding: 5px 10px; border-radius: 20px; font-weight: bold;">${token}</span>`).join('')}
+                    </div>
+                    <p style="margin-top: 1rem; color: #cbd5e0;">Click on attention cells to see details</p>
+                </div>
+            `;
+        }
+
+        function resetAttention() {
+            const area = document.getElementById('attentionAnalysisArea');
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-eye" style="font-size: 3rem; color: #667eea;"></i>
+                    <p style="margin-top: 1rem;">Enter a sentence and click "Analyze Attention" to see attention patterns</p>
+                </div>
+            `;
+        }
+
+        function showAttentionDetails(row, col) {
+            alert(`Attention from token ${row} to token ${col}\nThis shows how much the model focuses on token ${col} when processing token ${row}`);
+        }
+
+        function buildTransformer(component) {
+            const area = document.getElementById('transformerBuilderArea');
+            const components = {
+                'encoder': {
+                    title: 'Transformer Encoder',
+                    content: 'Processes input sequences and generates contextual representations. Consists of multiple layers with self-attention and feed-forward networks.',
+                    architecture: ['Input Embedding', 'Positional Encoding', 'Multi-Head Self-Attention', 'Feed-Forward Network', 'Layer Normalization', 'Residual Connections'],
+                    icon: 'fas fa-arrow-up'
+                },
+                'decoder': {
+                    title: 'Transformer Decoder',
+                    content: 'Generates output sequences autoregressively. Uses masked self-attention to prevent attending to future tokens and cross-attention to attend to encoder outputs.',
+                    architecture: ['Input Embedding', 'Positional Encoding', 'Masked Multi-Head Self-Attention', 'Multi-Head Cross-Attention', 'Feed-Forward Network', 'Layer Normalization'],
+                    icon: 'fas fa-arrow-down'
+                },
+                'full': {
+                    title: 'Full Transformer',
+                    content: 'Combines encoder and decoder for sequence-to-sequence tasks. The encoder processes the input, and the decoder generates the output using encoder representations.',
+                    architecture: ['Encoder Stack', 'Decoder Stack', 'Final Linear Layer', 'Softmax Output'],
+                    icon: 'fas fa-layer-group'
+                }
+            };
+            
+            const comp = components[component];
+            area.innerHTML = `
+                <div style="text-align: center;">
+                    <i class="${comp.icon}" style="font-size: 3rem; color: #667eea;"></i>
+                    <h4 style="margin: 1rem 0 0.5rem 0;">${comp.title}</h4>
+                    <p>${comp.content}</p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1rem; text-align: left;">
+                        <h5 style="margin: 0 0 1rem 0;">Architecture Components:</h5>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            ${comp.architecture.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize attention visualization
+        function initAttentionVisualization() {
+            const tokens = ["The", "cat", "sat", "on", "the", "mat"];
+            const grid = document.getElementById('attentionGrid');
+            const tokenList = document.getElementById('tokenList');
+            
+            // Create attention grid
+            for (let i = 0; i < tokens.length; i++) {
+                for (let j = 0; j < tokens.length; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'attention-cell';
+                    cell.style.background = `rgba(102, 126, 234, ${Math.random()})`;
+                    cell.onclick = () => {
+                        document.querySelectorAll('.attention-cell').forEach(c => c.classList.remove('active'));
+                        cell.classList.add('active');
+                    };
+                    grid.appendChild(cell);
+                }
+            }
+            
+            // Create token list
+            tokens.forEach(token => {
+                const tokenEl = document.createElement('span');
+                tokenEl.className = 'token';
+                tokenEl.textContent = token;
+                tokenEl.onclick = () => {
+                    document.querySelectorAll('.token').forEach(t => t.style.background = '#f7fafc');
+                    tokenEl.style.background = '#667eea';
+                    tokenEl.style.color = 'white';
+                };
+                tokenList.appendChild(tokenEl);
+            });
+        }
+
+        function selectOption(element, questionNum) {
+            // Remove previous selections for this question
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            const results = [
+                { question: 1, correct: 0 }, // First option is correct
+                { question: 2, correct: 1 }, // Second option is correct
+                { question: 3, correct: 1 }  // Second option is correct
+            ];
+
+            let score = 0;
+            results.forEach(result => {
+                const options = document.querySelectorAll(`.quiz-question:nth-child(${result.question}) .quiz-option`);
+                const selected = Array.from(options).findIndex(opt => opt.classList.contains('selected'));
+                if (selected === result.correct) {
+                    score++;
+                }
+            });
+
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.innerText = `You scored ${score}/${results.length} correct answers!`;
+            resultDiv.style.color = score === results.length ? '#48bb78' : '#ed8936';
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const progress = document.getElementById('moduleProgress');
+            const text = document.getElementById('progressText');
+            let width = parseInt(progress.style.width) || 33;
+            
+            if (width < 100) {
+                width += 33;
+                progress.style.width = width + '%';
+                text.innerText = width + '% Complete';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', initAttentionVisualization);
+        
+        // Add click event to progress bar to advance
+        document.querySelector('.progress-bar').addEventListener('click', updateProgress);
+    </script>
+</body>
+</html>
